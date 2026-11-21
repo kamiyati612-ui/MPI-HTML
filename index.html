@@ -1,0 +1,2454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PETUALANGAN ANGKA: Mengenal Puluhan dan Satuan</title>
+  <!-- Google Fonts: Fredoka & Nunito (Bulat, ramah anak kelas 1 SD) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'cursive', 'sans-serif'],
+            nunito: ['Nunito', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #dbeafe 0%, #fce7f3 35%, #fef9c3 70%, #dcfce7 100%);
+      min-height: 100vh;
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Gaya Kartu 3D Claymorphism */
+    .clay-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      border: 4px solid #ffffff;
+      box-shadow:
+        0 14px 28px -6px rgba(59, 130, 246, 0.16),
+        inset 0 -6px 0 rgba(203, 213, 225, 0.55),
+        inset 0 4px 10px rgba(255, 255, 255, 0.95);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+
+    .clay-hover:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow:
+        0 20px 34px -6px rgba(59, 130, 246, 0.24),
+        inset 0 -6px 0 rgba(203, 213, 225, 0.65);
+    }
+
+    /* Tombol 3D Cartoon Besar & Empuk */
+    .btn-3d {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      border-radius: 22px;
+      transition: all 0.14s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 48px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+    }
+
+    .btn-blue {
+      background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #1d4ed8, 0 10px 16px rgba(37, 99, 235, 0.28);
+    }
+    .btn-blue:active { box-shadow: 0 2px 0 #1d4ed8; }
+
+    .btn-pink {
+      background: linear-gradient(180deg, #f472b6 0%, #db2777 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #be185d, 0 10px 16px rgba(219, 39, 119, 0.28);
+    }
+    .btn-pink:active { box-shadow: 0 2px 0 #be185d; }
+
+    .btn-yellow {
+      background: linear-gradient(180deg, #fde047 0%, #eab308 100%);
+      color: #422006;
+      box-shadow: 0 6px 0 #ca8a04, 0 10px 16px rgba(234, 179, 8, 0.28);
+    }
+    .btn-yellow:active { box-shadow: 0 2px 0 #ca8a04; }
+
+    .btn-green {
+      background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #15803d, 0 10px 16px rgba(22, 163, 74, 0.28);
+    }
+    .btn-green:active { box-shadow: 0 2px 0 #15803d; }
+
+    .btn-orange {
+      background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #c2410c, 0 10px 16px rgba(234, 88, 12, 0.28);
+    }
+    .btn-orange:active { box-shadow: 0 2px 0 #c2410c; }
+
+    .btn-purple {
+      background: linear-gradient(180deg, #c084fc 0%, #9333ea 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #7e22ce, 0 10px 16px rgba(147, 51, 234, 0.28);
+    }
+    .btn-purple:active { box-shadow: 0 2px 0 #7e22ce; }
+
+    /* Animasi Lucu Ramah Anak */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+    @keyframes floatNumber {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-12px) scale(1.06); }
+    }
+    @keyframes waveArm {
+      0%, 100% { transform: rotate(0deg); }
+      30% { transform: rotate(-20deg); }
+      70% { transform: rotate(16deg); }
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.75); opacity: 0; }
+      80% { transform: scale(1.03); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes bundleFlash {
+      0% { transform: scale(1.25); background: #4ade80; }
+      100% { transform: scale(1); }
+    }
+
+    .animate-float { animation: floatSlow 3.4s ease-in-out infinite; }
+    .animate-num { animation: floatNumber 2.8s ease-in-out infinite; }
+    .animate-wave { transform-origin: 78% 78%; animation: waveArm 1.8s ease-in-out infinite; }
+    .animate-pop { animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .animate-bundled { animation: bundleFlash 0.65s ease-out; }
+
+    /* Blok Dienes 3D Realistis */
+    .dienes-rod {
+      width: 32px;
+      height: 165px;
+      display: flex;
+      flex-direction: column;
+      border-radius: 7px;
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 45%, #2563eb 100%);
+      box-shadow: 5px 5px 0px #1d4ed8, 7px 9px 14px rgba(29, 78, 216, 0.25);
+      border: 2px solid #bfdbfe;
+      transition: transform 0.2s ease;
+    }
+    .dienes-rod:hover { transform: translateY(-4px) scale(1.04); }
+    .dienes-rod-seg {
+      flex: 1;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    .dienes-rod-seg:last-child { border-bottom: none; }
+
+    .dienes-cube {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #fde047 0%, #f59e0b 100%);
+      box-shadow: 4px 4px 0px #b45309, 5px 7px 10px rgba(180, 83, 9, 0.25);
+      border: 2px solid #fef9c3;
+      transition: transform 0.2s ease;
+    }
+    .dienes-cube:hover { transform: translateY(-4px) scale(1.1); }
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* =========================================================
+       ATURAN CETAK LKPD FORMAT KERTAS A4 (@media print)
+       ========================================================= */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm;
+      }
+
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .no-print,
+      header,
+      nav,
+      #page-splash,
+      #page-menu,
+      #page-materi,
+      #page-simulasi,
+      #page-praktikum,
+      #page-game,
+      #page-evaluasi,
+      #page-pengembang,
+      #lkpd-toolbar,
+      #modal-overlay,
+      #toast-box,
+      #confetti-canvas {
+        display: none !important;
+      }
+
+      #main-shell {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #page-lkpd {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      #lkpd-a4-paper {
+        box-shadow: none !important;
+        border: 2px solid #000000 !important;
+        border-radius: 0 !important;
+        padding: 12px 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .print-rod {
+        background: #dbeafe !important;
+        border: 1.5px solid #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .print-rod-seg {
+        border-bottom: 1px solid #000000 !important;
+      }
+      .print-cube {
+        background: #fef08a !important;
+        border: 1.5px solid #000000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body class="pb-12">
+  <!-- Kanvas Konfeti Perayaan -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Toast Notifikasi Ramah Anak -->
+  <div id="toast-box" class="fixed bottom-5 right-5 z-50 hidden max-w-sm animate-pop no-print">
+    <div class="clay-card px-5 py-3.5 flex items-center gap-3 bg-white border-4 border-amber-300 shadow-2xl">
+      <span id="toast-icon" class="text-3xl">🌟</span>
+      <p id="toast-text" class="font-bold text-slate-800 text-sm sm:text-base"></p>
+    </div>
+  </div>
+
+  <!-- Modal Custom (Pengganti alert() & confirm() untuk Petunjuk / Konfirmasi Keluar Evaluasi) -->
+  <div id="modal-overlay" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 no-print">
+    <div id="modal-card" class="clay-card max-w-lg w-full p-6 sm:p-7 bg-white animate-pop space-y-4">
+      <!-- Konten modal diisi dinamis oleh JS -->
+    </div>
+  </div>
+
+  <!-- =========================================================
+       HEADER & BAR KONTROL AUDIO GLOBAL (MUNCUL SETELAH HALAMAN PEMBUKA)
+       ========================================================= -->
+  <header id="global-header" class="hidden sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-4 border-sky-200 shadow-sm no-print">
+    <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+      <!-- Identitas Singkat & Tombol Beranda -->
+      <div class="flex items-center gap-2.5">
+        <button onclick="requestNavigate('menu')" class="btn-3d btn-blue px-3.5 py-1.5 text-sm" title="Kembali ke Menu Utama">
+          <span>🏠</span>
+          <span>Menu Utama</span>
+        </button>
+        <button id="btn-back-history" onclick="goBackPage()" class="btn-3d btn-purple px-3.5 py-1.5 text-sm" title="Kembali ke Halaman Sebelumnya">
+          <span>⬅</span>
+          <span class="hidden sm:inline">Kembali</span>
+        </button>
+      </div>
+
+      <!-- Progress Belajar & Penghargaan Bintang -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Progress Belajar Siswa -->
+        <div class="hidden md:flex items-center gap-2 bg-emerald-50 border-2 border-emerald-300 px-3 py-1.5 rounded-2xl" title="Progres Belajar Siswa">
+          <span class="text-xs font-extrabold text-emerald-800">Progres:</span>
+          <div class="w-24 h-3 bg-emerald-200 rounded-full overflow-hidden">
+            <div id="header-progress-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 14%"></div>
+          </div>
+          <span id="header-progress-text" class="text-xs font-extrabold text-emerald-800">1/7</span>
+        </div>
+
+        <!-- Total Bintang -->
+        <div class="bg-amber-100 border-2 border-amber-300 px-3 py-1.5 rounded-2xl flex items-center gap-1.5" title="Total Bintang yang Dikumpulkan">
+          <span class="text-lg">⭐</span>
+          <span id="header-stars-total" class="font-display font-bold text-amber-800 text-sm sm:text-base">0</span>
+        </div>
+
+        <!-- Tombol Petunjuk Penggunaan -->
+        <button onclick="openHelpModal()" class="btn-3d btn-yellow px-3 py-1.5 text-sm" title="Petunjuk Penggunaan">
+          <span>❓</span>
+          <span class="hidden sm:inline">Petunjuk</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bilah Kontrol Audio Lengkap (Ulangi Suara, Hentikan Suara, Mute/Unmute, Musik Latar) -->
+    <div class="bg-sky-50/95 border-t border-sky-200 px-3 py-1.5">
+      <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <!-- Navigasi Cepat 7 Menu -->
+        <div class="flex items-center gap-1 overflow-x-auto pb-0.5">
+          <button onclick="requestNavigate('materi')" data-tab="materi" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">1. Materi</button>
+          <button onclick="requestNavigate('simulasi')" data-tab="simulasi" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">2. Simulasi</button>
+          <button onclick="requestNavigate('praktikum')" data-tab="praktikum" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">3. Praktikum</button>
+          <button onclick="requestNavigate('game')" data-tab="game" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">4. Game</button>
+          <button onclick="requestNavigate('lkpd')" data-tab="lkpd" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">5. LKPD</button>
+          <button onclick="requestNavigate('evaluasi')" data-tab="evaluasi" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">6. Evaluasi</button>
+          <button onclick="requestNavigate('pengembang')" data-tab="pengembang" class="nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold transition">7. Pengembang</button>
+        </div>
+
+        <!-- 4 Tombol Kontrol Audio Sesuai Spesifikasi -->
+        <div class="flex items-center gap-1.5">
+          <button onclick="repeatLastSpeech()" class="bg-orange-500 hover:bg-orange-600 text-white px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow-sm" title="Ulangi Suara Narator">
+            <span>🔁</span><span class="hidden sm:inline">Ulangi Suara</span>
+          </button>
+          <button onclick="stopSpeech()" class="bg-rose-500 hover:bg-rose-600 text-white px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow-sm" title="Hentikan Suara Narator">
+            <span>⏹️</span><span class="hidden sm:inline">Hentikan</span>
+          </button>
+          <button id="btn-mute-global" onclick="toggleMute()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow-sm" title="Matikan/Hidupkan Suara">
+            <span id="mute-icon">🔊</span><span id="mute-label" class="hidden sm:inline">Suara On</span>
+          </button>
+          <button id="btn-bgm-global" onclick="toggleBGM()" class="bg-purple-500 hover:bg-purple-600 text-white px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow-sm" title="Musik Latar Ceria">
+            <span id="bgm-icon">🎵</span><span id="bgm-label" class="hidden sm:inline">Musik Off</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       KONTAINER UTAMA APLIKASI
+       ========================================================= -->
+  <main id="main-shell" class="max-w-6xl mx-auto px-3 sm:px-6 pt-5">
+
+    <!-- =======================================================
+         HALAMAN PEMBUKA (SPLASH SCREEN)
+         ======================================================= -->
+    <section id="page-splash" class="min-h-[88vh] flex items-center justify-center py-4 animate-pop">
+      <div class="clay-card w-full max-w-4xl p-6 sm:p-10 bg-gradient-to-br from-sky-100 via-white to-pink-100 relative overflow-hidden text-center">
+        
+        <!-- Animasi Awan & Angka Bergerak di Latar Belakang -->
+        <div class="absolute top-5 left-6 text-4xl sm:text-5xl animate-num opacity-80 select-none">☁️</div>
+        <div class="absolute top-6 right-8 text-4xl sm:text-5xl animate-float opacity-80 select-none">⭐</div>
+        <div class="absolute bottom-6 left-8 bg-blue-500 text-white font-display font-bold text-2xl sm:text-3xl w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg animate-num select-none">10</div>
+        <div class="absolute bottom-8 right-8 bg-amber-400 text-amber-950 font-display font-bold text-2xl sm:text-3xl w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg animate-float select-none">25</div>
+        <div class="hidden sm:flex absolute top-24 left-12 bg-pink-500 text-white font-display font-bold text-xl w-11 h-11 rounded-full items-center justify-center shadow animate-float select-none">1</div>
+        <div class="hidden sm:flex absolute top-28 right-14 bg-emerald-500 text-white font-display font-bold text-xl w-11 h-11 rounded-full items-center justify-center shadow animate-num select-none">99</div>
+
+        <!-- Lencana Identitas Kurikulum -->
+        <div class="inline-flex items-center gap-2 bg-sky-200/80 text-sky-900 px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold mb-3 relative z-10">
+          <span>🏫 SDN 3 Kelaten • Matematika Fase A (Kelas 1 SD)</span>
+        </div>
+
+        <!-- Judul Besar & Subjudul -->
+        <h1 class="font-display font-bold text-3xl sm:text-5xl md:text-6xl text-blue-700 drop-shadow-sm tracking-wide relative z-10">
+          PETUALANGAN ANGKA
+        </h1>
+        <p class="font-display font-semibold text-xl sm:text-3xl text-pink-600 mt-1 mb-5 relative z-10">
+          Mengenal Puluhan dan Satuan
+        </p>
+
+        <!-- Ilustrasi 3D Cartoon Karakter Anak SD Pemandu Pembelajaran -->
+        <div class="w-44 h-44 sm:w-52 sm:h-52 mx-auto my-2 animate-float relative z-10">
+          <svg viewBox="0 0 240 240" class="w-full h-full drop-shadow-xl" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="skinGrad" cx="40%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#FFEDD5"/>
+                <stop offset="70%" stop-color="#FED7AA"/>
+                <stop offset="100%" stop-color="#FDBA74"/>
+              </radialGradient>
+              <linearGradient id="uniformRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#F43F5E"/>
+                <stop offset="100%" stop-color="#BE123C"/>
+              </linearGradient>
+              <linearGradient id="shirtWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#E2E8F0"/>
+              </linearGradient>
+            </defs>
+            <!-- Bayangan -->
+            <ellipse cx="120" cy="224" rx="64" ry="11" fill="rgba(30,41,59,0.16)"/>
+            <!-- Sepatu & Kaki -->
+            <rect x="88" y="198" width="24" height="22" rx="10" fill="#1E293B"/>
+            <rect x="128" y="198" width="24" height="22" rx="10" fill="#1E293B"/>
+            <!-- Celana/Rok Merah SD -->
+            <rect x="82" y="172" width="76" height="32" rx="14" fill="url(#uniformRed)" stroke="#9F1239" stroke-width="2.5"/>
+            <!-- Baju Seragam Putih SD -->
+            <rect x="78" y="132" width="84" height="46" rx="22" fill="url(#shirtWhite)" stroke="#CBD5E1" stroke-width="2.5"/>
+            <!-- Dasi Merah SD -->
+            <polygon points="114,134 126,134 123,162 120,168 117,162" fill="#E11D48"/>
+            <!-- Tangan Kiri Melambai Ceria -->
+            <g class="animate-wave">
+              <rect x="44" y="116" width="38" height="20" rx="10" transform="rotate(-35 62 126)" fill="url(#skinGrad)" stroke="#FB923C" stroke-width="2"/>
+            </g>
+            <!-- Tangan Kanan Memegang Balok Puluhan -->
+            <rect x="158" y="136" width="36" height="20" rx="10" transform="rotate(20 174 146)" fill="url(#skinGrad)" stroke="#FB923C" stroke-width="2"/>
+            <rect x="180" y="96" width="22" height="58" rx="5" fill="#3B82F6" stroke="#1D4ED8" stroke-width="2.5"/>
+            <text x="191" y="130" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="13" font-weight="bold" fill="#FFF">10</text>
+            <!-- Kepala Anak SD -->
+            <circle cx="120" cy="86" r="50" fill="url(#skinGrad)" stroke="#FDBA74" stroke-width="2.5"/>
+            <!-- Rambut Cokelat Tua Lucu -->
+            <path d="M70 84 Q70 30 120 30 Q170 30 170 84 Q158 58 120 62 Q82 58 70 84 Z" fill="#334155"/>
+            <circle cx="120" cy="30" r="10" fill="#334155"/>
+            <!-- Mata Bulat Berbinar -->
+            <circle cx="101" cy="86" r="9" fill="#1E293B"/>
+            <circle cx="98" cy="82" r="3.5" fill="#FFFFFF"/>
+            <circle cx="139" cy="86" r="9" fill="#1E293B"/>
+            <circle cx="136" cy="82" r="3.5" fill="#FFFFFF"/>
+            <!-- Pipi Merona -->
+            <ellipse cx="86" cy="99" rx="8" ry="5" fill="#FB7185" opacity="0.6"/>
+            <ellipse cx="154" cy="99" rx="8" ry="5" fill="#FB7185" opacity="0.6"/>
+            <!-- Senyum Lebar -->
+            <path d="M106 104 Q120 118 134 104" fill="none" stroke="#1E293B" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- Tombol Utama Halaman Pembuka -->
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-4 relative z-10">
+          <button onclick="startLearningFromSplash()" class="btn-3d btn-green px-8 py-4 text-xl sm:text-2xl shadow-xl">
+            <span>🚀</span>
+            <span>MULAI BELAJAR</span>
+          </button>
+          <button onclick="openAudioSettingsModal()" class="btn-3d btn-yellow px-6 py-4 text-base sm:text-lg">
+            <span>🔊</span>
+            <span>PENGATURAN SUARA</span>
+          </button>
+        </div>
+
+        <p class="text-xs sm:text-sm font-bold text-slate-500 mt-5 relative z-10">
+          Dikembangkan oleh: <strong>Syifa Lutfiana Pangestu, S.Pd.</strong> • SDN 3 Kelaten
+        </p>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         HALAMAN MENU UTAMA (7 MENU LENGKAP)
+         ======================================================= -->
+    <section id="page-menu" class="hidden space-y-6 animate-pop">
+      <!-- Banner Sapaan Pemandu -->
+      <div class="clay-card p-5 sm:p-6 bg-gradient-to-r from-blue-100 via-white to-yellow-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4 text-center sm:text-left">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-4xl shadow-md border-2 border-white flex-shrink-0">
+            🧒
+          </div>
+          <div>
+            <span class="text-xs font-extrabold uppercase text-blue-600">Menu Utama • Cakupan Bilangan 0–99</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Pilih Petualangan Belajarmu!</h2>
+            <p class="text-sm font-bold text-slate-600">Klik salah satu kotak menu berwarna di bawah ini ya!</p>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="speakText('Halo adik-adik! Selamat datang di menu utama Petualangan Angka. Silakan pilih menu Materi, Simulasi, Praktikum, Game, LKPD, Evaluasi, atau Pengembang!')" class="btn-3d btn-orange px-4 py-2 text-sm">
+            <span>🔊</span><span>Dengarkan</span>
+          </button>
+          <button onclick="openObjectivesModal()" class="btn-3d btn-blue px-4 py-2 text-sm">
+            <span>🎯</span><span>Tujuan Belajar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid 7 Menu Utama -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <!-- 1. MATERI -->
+        <button onclick="requestNavigate('materi')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-sky-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 text-white flex items-center justify-center text-3xl shadow">📘</div>
+              <span id="badge-done-materi" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-sky-100 text-sky-700">Menu 1</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">1. MATERI</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">Mengenal puluhan, satuan, nilai tempat, dan contoh blok 25, 34, 48.</p>
+          </div>
+          <span class="mt-4 text-blue-600 font-extrabold text-sm">Buka Materi ➔</span>
+        </button>
+
+        <!-- 2. SIMULASI -->
+        <button onclick="requestNavigate('simulasi')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-amber-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center text-3xl shadow">🧱</div>
+              <span id="badge-done-simulasi" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800">Menu 2</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">2. SIMULASI</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">Susun balok puluhan & satuan. 10 satuan otomatis jadi 1 puluhan!</p>
+          </div>
+          <span class="mt-4 text-orange-600 font-extrabold text-sm">Coba Simulasi ➔</span>
+        </button>
+
+        <!-- 3. PRAKTIKUM -->
+        <button onclick="requestNavigate('praktikum')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-emerald-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-600 text-white flex items-center justify-center text-3xl shadow">🛠️</div>
+              <span id="badge-done-praktikum" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">Menu 3</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">3. PRAKTIKUM</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">Tantangan membuat bilangan 23, 35, 42, 57, 69 dengan balok.</p>
+          </div>
+          <span class="mt-4 text-emerald-600 font-extrabold text-sm">Mulai Praktik ➔</span>
+        </button>
+
+        <!-- 4. GAME -->
+        <button onclick="requestNavigate('game')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-pink-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-600 text-white flex items-center justify-center text-3xl shadow">🎮</div>
+              <span id="badge-done-game" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-pink-100 text-pink-800">Menu 4</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">4. GAME</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">3 Game Seru: Berburu Angka, Pasangkan Angka, & Harta Karun!</p>
+          </div>
+          <span class="mt-4 text-rose-600 font-extrabold text-sm">Mainkan Game ➔</span>
+        </button>
+
+        <!-- 5. LKPD -->
+        <button onclick="requestNavigate('lkpd')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-indigo-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-400 to-blue-700 text-white flex items-center justify-center text-3xl shadow">📝</div>
+              <span id="badge-done-lkpd" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-800">Menu 5</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">5. LKPD</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">5 Aktivitas LKPD digital yang bisa diperiksa dan dicetak A4.</p>
+          </div>
+          <span class="mt-4 text-indigo-600 font-extrabold text-sm">Buka LKPD ➔</span>
+        </button>
+
+        <!-- 6. EVALUASI -->
+        <button onclick="requestNavigate('evaluasi')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-purple-50 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-violet-600 text-white flex items-center justify-center text-3xl shadow">🏆</div>
+              <span id="badge-done-evaluasi" class="text-xs font-extrabold px-2.5 py-1 rounded-full bg-purple-100 text-purple-800">Menu 6</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-slate-800">6. EVALUASI</h3>
+            <p class="text-xs sm:text-sm font-bold text-slate-600 mt-1">10 Pilihan Ganda + 5 Isian Singkat dengan nilai & predikat.</p>
+          </div>
+          <span class="mt-4 text-purple-600 font-extrabold text-sm">Ikuti Evaluasi ➔</span>
+        </button>
+
+        <!-- 7. PENGEMBANG -->
+        <button onclick="requestNavigate('pengembang')" class="clay-card clay-hover p-5 text-left bg-gradient-to-b from-white to-teal-50 flex flex-col justify-between sm:col-span-2">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-600 text-white flex items-center justify-center text-3xl shadow flex-shrink-0">👩‍🏫</div>
+            <div>
+              <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">Menu 7</span>
+              <h3 class="font-display font-bold text-2xl text-slate-800 mt-1">7. PENGEMBANG</h3>
+              <p class="text-xs sm:text-sm font-bold text-slate-600">Profil Syifa Lutfiana Pangestu, S.Pd. — Guru SDN 3 Kelaten.</p>
+            </div>
+          </div>
+          <span class="mt-4 text-teal-600 font-extrabold text-sm">Lihat Profil Pengembang ➔</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         1. MENU MATERI
+         ======================================================= -->
+    <section id="page-materi" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-sky-100 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-blue-600">Menu 1 • Konsep Dasar</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Materi: Puluhan dan Satuan</h2>
+          </div>
+          <button onclick="speakCurrentMateri()" class="btn-3d btn-orange px-5 py-2.5 text-sm sm:text-base">
+            <span>🔊</span>
+            <span>DENGARKAN</span>
+          </button>
+        </div>
+
+        <!-- Tab Bagian Materi -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button onclick="selectMateriTab(0)" data-mtab="0" class="m-tab-btn px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm transition">1. Pengertian Puluhan & Satuan</button>
+          <button onclick="selectMateriTab(1)" data-mtab="1" class="m-tab-btn px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm transition">2. Hubungan 10 Satuan = 1 Puluhan</button>
+          <button onclick="selectMateriTab(2)" data-mtab="2" class="m-tab-btn px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm transition">3. Nilai Tempat & Menguraikan</button>
+          <button onclick="selectMateriTab(3)" data-mtab="3" class="m-tab-btn px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm transition">4. Contoh Visual (25, 34, 48)</button>
+        </div>
+
+        <!-- Isi Materi Dinamis -->
+        <div id="materi-body" class="bg-sky-50/70 rounded-3xl p-5 sm:p-7 border-2 border-sky-200 min-h-[300px]">
+          <!-- Diisi JS -->
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-between items-center gap-3">
+          <button id="btn-m-prev" onclick="stepMateri(-1)" class="btn-3d btn-blue px-5 py-2 text-sm">⬅ Bagian Sebelumnya</button>
+          <span id="materi-page-num" class="font-display font-bold text-slate-600">Bagian 1 dari 4</span>
+          <button id="btn-m-next" onclick="stepMateri(1)" class="btn-3d btn-green px-5 py-2 text-sm">Bagian Berikutnya ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         2. MENU SIMULASI INTERAKTIF
+         ======================================================= -->
+    <section id="page-simulasi" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-amber-100 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-orange-600">Menu 2 • Eksplorasi Blok Dienes</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Simulasi Pembentukan Bilangan (0–99)</h2>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="speakSimulasiNarration()" class="btn-3d btn-orange px-4 py-2 text-sm">🔊 Dengarkan</button>
+            <button onclick="resetSimulasi()" class="btn-3d btn-pink px-4 py-2 text-sm">🔄 Reset</button>
+          </div>
+        </div>
+
+        <!-- Banner Penjelasan Suara/Teks Aktivitas -->
+        <div id="sim-activity-banner" class="bg-amber-100 border-2 border-amber-300 rounded-2xl p-3.5 mb-5 flex items-center gap-3">
+          <span class="text-2xl">🗣️</span>
+          <p id="sim-activity-text" class="font-bold text-amber-950 text-sm sm:text-base">
+            Ayo klik tombol tambah puluhan atau tambah satuan untuk membentuk bilangan!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- Kolom Puluhan -->
+          <div class="lg:col-span-5 bg-blue-50 rounded-3xl p-4 sm:p-5 border-3 border-blue-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-blue-600 text-white font-display font-bold px-4 py-1 rounded-full text-sm sm:text-base">BATANG PULUHAN</span>
+                <span id="sim-tens-label" class="font-display font-bold text-xl text-blue-800">0 Puluhan (0)</span>
+              </div>
+              <div id="sim-tens-stage" class="min-h-[205px] bg-white rounded-2xl border-2 border-dashed border-blue-300 p-4 flex flex-wrap items-end justify-center gap-2.5">
+              </div>
+            </div>
+            <div class="mt-4 flex justify-center gap-3">
+              <button onclick="changeSimTens(-1)" class="btn-3d btn-pink px-4 py-2 text-sm sm:text-base">➖ Kurang Puluhan</button>
+              <button onclick="changeSimTens(1)" class="btn-3d btn-blue px-4 py-2 text-sm sm:text-base">➕ Tambah Puluhan</button>
+            </div>
+          </div>
+
+          <!-- Kolom Satuan -->
+          <div class="lg:col-span-4 bg-amber-50 rounded-3xl p-4 sm:p-5 border-3 border-amber-300 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="bg-amber-500 text-white font-display font-bold px-4 py-1 rounded-full text-sm sm:text-base">KUBUS SATUAN</span>
+                <span id="sim-ones-label" class="font-display font-bold text-xl text-amber-800">0 Satuan</span>
+              </div>
+              <div id="sim-ones-stage" class="min-h-[205px] bg-white rounded-2xl border-2 border-dashed border-amber-300 p-4 flex flex-wrap content-center items-center justify-center gap-3">
+              </div>
+            </div>
+            <div class="mt-4 flex justify-center gap-3">
+              <button onclick="changeSimOnes(-1)" class="btn-3d btn-pink px-4 py-2 text-sm sm:text-base">➖ Kurang Satuan</button>
+              <button onclick="changeSimOnes(1)" class="btn-3d btn-yellow px-4 py-2 text-sm sm:text-base">➕ Tambah Satuan</button>
+            </div>
+          </div>
+
+          <!-- Kolom Hasil Bilangan Otomatis -->
+          <div class="lg:col-span-3 bg-gradient-to-b from-emerald-50 to-green-100 rounded-3xl p-5 border-3 border-emerald-300 flex flex-col justify-between text-center">
+            <div>
+              <span class="text-xs font-extrabold uppercase text-emerald-800">Angka Hasil</span>
+              <div class="my-3 bg-white rounded-3xl py-4 px-2 border-2 border-emerald-300 shadow-inner">
+                <span id="sim-result-num" class="font-display font-bold text-6xl sm:text-7xl text-slate-800">0</span>
+              </div>
+              <p id="sim-result-words" class="font-display font-bold text-xl text-emerald-900">"Nol"</p>
+              <div class="mt-3 bg-white/90 rounded-2xl p-3 text-xs sm:text-sm font-bold text-slate-700 space-y-1">
+                <p id="sim-result-expanded">0 + 0 = 0</p>
+                <p id="sim-result-places" class="text-blue-700">0 Puluhan + 0 Satuan</p>
+              </div>
+            </div>
+            <button onclick="speakSimulasiNarration()" class="btn-3d btn-green w-full mt-4 py-2.5 text-sm">
+              <span>🔊</span><span>Bacakan Angka</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         3. MENU PRAKTIKUM
+         ======================================================= -->
+    <section id="page-praktikum" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-emerald-100 pb-4 mb-5">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-emerald-600">Menu 3 • Ayo Mencoba Langsung</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Praktikum Menyusun Bilangan</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-900 font-extrabold px-3.5 py-1.5 rounded-full text-sm">Berhasil: <span id="prak-success-count">0</span></span>
+            <button onclick="newPraktikumChallenge()" class="btn-3d btn-purple px-4 py-2 text-sm">🎲 Tantangan Baru</button>
+          </div>
+        </div>
+
+        <!-- Instruksi Tantangan -->
+        <div class="bg-gradient-to-r from-emerald-100 via-teal-50 to-sky-100 rounded-3xl p-5 border-3 border-emerald-300 text-center space-y-2 mb-6">
+          <p class="font-bold text-emerald-900 text-sm sm:text-base">
+            "Ayo, buat bilangan yang diminta menggunakan balok puluhan dan satuan!"
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <span class="font-display font-bold text-2xl sm:text-4xl text-slate-800">Buat bilangan:</span>
+            <span id="prak-target-number" class="bg-blue-600 text-white font-display font-bold text-4xl sm:text-5xl px-6 py-2 rounded-2xl shadow-lg">23</span>
+            <button onclick="speakPraktikumInstruction()" class="btn-3d btn-orange px-4 py-2 text-sm">🔊 Dengarkan</button>
+          </div>
+        </div>
+
+        <!-- Area Kerja Praktikum -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <!-- Kotak Puluhan Praktikum -->
+          <div class="bg-blue-50 rounded-3xl p-4 border-2 border-blue-300">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-display font-bold text-blue-800 text-lg">Puluhan: <span id="prak-tens-val">0</span></span>
+              <div class="flex gap-2">
+                <button onclick="changePrakTens(-1)" class="btn-3d btn-pink px-3 py-1 text-sm">➖</button>
+                <button onclick="changePrakTens(1)" class="btn-3d btn-blue px-3 py-1 text-sm">➕ Puluhan</button>
+              </div>
+            </div>
+            <div id="prak-tens-stage" class="min-h-[185px] bg-white rounded-2xl border-2 border-dashed border-blue-200 p-3 flex flex-wrap items-end justify-center gap-2"></div>
+          </div>
+
+          <!-- Kotak Satuan Praktikum -->
+          <div class="bg-amber-50 rounded-3xl p-4 border-2 border-amber-300">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-display font-bold text-amber-800 text-lg">Satuan: <span id="prak-ones-val">0</span></span>
+              <div class="flex gap-2">
+                <button onclick="changePrakOnes(-1)" class="btn-3d btn-pink px-3 py-1 text-sm">➖</button>
+                <button onclick="changePrakOnes(1)" class="btn-3d btn-yellow px-3 py-1 text-sm">➕ Satuan</button>
+              </div>
+            </div>
+            <div id="prak-ones-stage" class="min-h-[185px] bg-white rounded-2xl border-2 border-dashed border-amber-200 p-3 flex flex-wrap content-center items-center justify-center gap-2.5"></div>
+          </div>
+        </div>
+
+        <!-- Umpan Balik Praktikum -->
+        <div id="prak-feedback" class="hidden rounded-2xl p-4 mb-4 font-bold text-center text-base sm:text-lg"></div>
+
+        <!-- Tombol Periksa & Ulangi -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <button onclick="resetPraktikumBlocks()" class="btn-3d btn-pink px-6 py-3 text-base">🔄 Ulangi Susunan</button>
+          <button onclick="checkPraktikumAnswer()" class="btn-3d btn-green px-8 py-3 text-lg">✅ PERIKSA JAWABAN</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         4. MENU GAME (3 PERMAINAN EDUKATIF)
+         ======================================================= -->
+    <section id="page-game" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-pink-100 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-rose-600">Menu 4 • Bermain Sambil Belajar</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Arena Game Petualangan Angka</h2>
+          </div>
+          <div class="bg-amber-100 border-2 border-amber-300 px-4 py-1.5 rounded-2xl font-display font-bold text-amber-900">
+            Bintang Game: <span id="game-stars-summary">0</span> / 9 ⭐
+          </div>
+        </div>
+
+        <!-- Pilih 3 Game -->
+        <div id="game-hub" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Game 1 -->
+          <div class="bg-gradient-to-b from-sky-50 to-blue-100 rounded-3xl p-6 border-3 border-blue-300 text-center flex flex-col justify-between">
+            <div>
+              <span class="text-5xl block mb-2">🔍</span>
+              <span class="bg-blue-600 text-white text-xs font-extrabold px-3 py-1 rounded-full">GAME 1</span>
+              <h3 class="font-display font-bold text-2xl text-blue-950 mt-2">BERBURU ANGKA</h3>
+              <p class="text-sm font-bold text-blue-900 mt-2">Tentukan jumlah puluhan dan satuan berdasarkan gambar balok!</p>
+              <div id="g1-stars" class="text-2xl my-3">☆☆☆</div>
+            </div>
+            <button onclick="launchGame(1)" class="btn-3d btn-blue w-full py-3 text-base">▶ Main Game 1</button>
+          </div>
+
+          <!-- Game 2 -->
+          <div class="bg-gradient-to-b from-pink-50 to-rose-100 rounded-3xl p-6 border-3 border-rose-300 text-center flex flex-col justify-between">
+            <div>
+              <span class="text-5xl block mb-2">🧩</span>
+              <span class="bg-rose-600 text-white text-xs font-extrabold px-3 py-1 rounded-full">GAME 2</span>
+              <h3 class="font-display font-bold text-2xl text-rose-950 mt-2">PASANGKAN ANGKA</h3>
+              <p class="text-sm font-bold text-rose-900 mt-2">Cocokkan bilangan dengan gambar batang puluhan & kubus satuan!</p>
+              <div id="g2-stars" class="text-2xl my-3">☆☆☆</div>
+            </div>
+            <button onclick="launchGame(2)" class="btn-3d btn-pink w-full py-3 text-base">▶ Main Game 2</button>
+          </div>
+
+          <!-- Game 3 -->
+          <div class="bg-gradient-to-b from-amber-50 to-yellow-100 rounded-3xl p-6 border-3 border-amber-300 text-center flex flex-col justify-between">
+            <div>
+              <span class="text-5xl block mb-2">🏴‍☠️</span>
+              <span class="bg-amber-500 text-white text-xs font-extrabold px-3 py-1 rounded-full">GAME 3</span>
+              <h3 class="font-display font-bold text-2xl text-amber-950 mt-2">PETUALANGAN HARTA KARUN</h3>
+              <p class="text-sm font-bold text-amber-900 mt-2">Jawab 5 tantangan matematika untuk membuka peti harta karun!</p>
+              <div id="g3-stars" class="text-2xl my-3">☆☆☆</div>
+            </div>
+            <button onclick="launchGame(3)" class="btn-3d btn-orange w-full py-3 text-base">▶ Main Game 3</button>
+          </div>
+        </div>
+
+        <!-- Area Bermain Game Aktif -->
+        <div id="game-stage" class="hidden space-y-5">
+          <!-- Diisi dinamis oleh JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         5. MENU LKPD (LEMBAR KERJA PESERTA DIDIK DIGITAL & CETAK A4)
+         ======================================================= -->
+    <section id="page-lkpd" class="hidden space-y-6 animate-pop">
+      <!-- Toolbar LKPD -->
+      <div id="lkpd-toolbar" class="clay-card p-4 sm:p-5 flex flex-wrap items-center justify-between gap-3 no-print">
+        <div>
+          <span class="text-xs font-extrabold uppercase text-indigo-600">Menu 5 • Lembar Kerja Siswa</span>
+          <h2 class="font-display font-bold text-xl sm:text-2xl text-slate-800">LKPD Digital & Siap Cetak Kertas A4</h2>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="speakText('Ayo kerjakan lima aktivitas pada Lembar Kerja Peserta Didik. Setelah selesai, klik tombol Periksa atau Cetak LKPD!')" class="btn-3d btn-orange px-4 py-2 text-sm">🔊 Dengarkan</button>
+          <button onclick="checkLKPD()" class="btn-3d btn-green px-4 py-2 text-sm">✅ PERIKSA</button>
+          <button onclick="resetLKPD()" class="btn-3d btn-pink px-4 py-2 text-sm">🔄 ULANGI</button>
+          <button onclick="window.print()" class="btn-3d btn-blue px-4 py-2 text-sm">🖨️ CETAK LKPD</button>
+        </div>
+      </div>
+
+      <!-- Kertas A4 LKPD -->
+      <div id="lkpd-a4-paper" class="bg-white rounded-3xl shadow-xl border-2 border-slate-300 p-5 sm:p-9 max-w-4xl mx-auto text-slate-900 space-y-5">
+        <!-- Kop LKPD -->
+        <div class="border-b-4 border-double border-slate-800 pb-3 text-center">
+          <h3 class="font-display font-bold text-xl sm:text-2xl uppercase">LKPD Mengenal Puluhan dan Satuan</h3>
+          <p class="font-bold text-xs sm:text-sm">SDN 3 Kelaten • Mata Pelajaran: Matematika • Fase A / Kelas 1 SD</p>
+        </div>
+
+        <!-- Identitas Siswa -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-400 text-sm font-bold">
+          <div class="flex items-center gap-2">
+            <span>Nama Siswa:</span>
+            <input type="text" id="lkpd-name" class="flex-1 border-b-2 border-slate-500 bg-transparent px-1 focus:outline-none" placeholder="...................." />
+          </div>
+          <div class="flex items-center gap-2">
+            <span>Kelas:</span>
+            <input type="text" id="lkpd-class" value="1 (Satu)" class="w-24 border-b-2 border-slate-500 bg-transparent px-1 focus:outline-none" />
+          </div>
+          <div class="flex items-center gap-2">
+            <span>Tanggal:</span>
+            <input type="text" id="lkpd-date" class="flex-1 border-b-2 border-slate-500 bg-transparent px-1 focus:outline-none" placeholder=".... / .... / 2026" />
+          </div>
+        </div>
+
+        <!-- Aktivitas 1: Menghitung batang puluhan dan kubus satuan -->
+        <div class="border border-slate-400 rounded-xl p-3.5">
+          <h4 class="font-display font-bold text-base bg-sky-100 px-3 py-1 rounded border border-slate-300 mb-3">
+            Aktivitas 1: Menghitung Batang Puluhan dan Kubus Satuan
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="lkpd-act-1"></div>
+        </div>
+
+        <!-- Aktivitas 2: Mengisi tabel puluhan dan satuan -->
+        <div class="border border-slate-400 rounded-xl p-3.5">
+          <h4 class="font-display font-bold text-base bg-pink-100 px-3 py-1 rounded border border-slate-300 mb-3">
+            Aktivitas 2: Mengisi Tabel Puluhan dan Satuan
+          </h4>
+          <table class="w-full border-collapse border border-slate-500 text-center text-sm font-bold">
+            <thead class="bg-slate-100">
+              <tr>
+                <th class="border border-slate-500 py-1.5">Bilangan</th>
+                <th class="border border-slate-500 py-1.5">Puluhan</th>
+                <th class="border border-slate-500 py-1.5">Satuan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-slate-500 py-1.5">26</td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="2" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="6" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-500 py-1.5">41</td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="4" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="1" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-500 py-1.5">70</td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="7" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+                <td class="border border-slate-500 py-1.5"><input type="number" data-ans="0" class="lkpd-check w-16 text-center border border-slate-400 rounded" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Aktivitas 3: Menguraikan bilangan -->
+        <div class="border border-slate-400 rounded-xl p-3.5">
+          <h4 class="font-display font-bold text-base bg-amber-100 px-3 py-1 rounded border border-slate-300 mb-3">
+            Aktivitas 3: Menguraikan Bilangan (Bentuk Panjang)
+          </h4>
+          <div class="space-y-2 text-sm font-bold">
+            <div class="flex flex-wrap items-center gap-2">
+              <span>1) 38 =</span>
+              <input type="number" data-ans="30" class="lkpd-check w-16 text-center border border-slate-400 rounded py-0.5" />
+              <span>+</span>
+              <input type="number" data-ans="8" class="lkpd-check w-16 text-center border border-slate-400 rounded py-0.5" />
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span>2) 54 =</span>
+              <input type="number" data-ans="50" class="lkpd-check w-16 text-center border border-slate-400 rounded py-0.5" />
+              <span>+</span>
+              <input type="number" data-ans="4" class="lkpd-check w-16 text-center border border-slate-400 rounded py-0.5" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Aktivitas 4: Mencocokkan gambar dengan bilangan -->
+        <div class="border border-slate-400 rounded-xl p-3.5">
+          <h4 class="font-display font-bold text-base bg-emerald-100 px-3 py-1 rounded border border-slate-300 mb-3">
+            Aktivitas 4: Pilih Bilangan yang Cocok dengan Gambar Balok!
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-bold" id="lkpd-act-4"></div>
+        </div>
+
+        <!-- Aktivitas 5: Menyelesaikan soal cerita sederhana -->
+        <div class="border border-slate-400 rounded-xl p-3.5">
+          <h4 class="font-display font-bold text-base bg-purple-100 px-3 py-1 rounded border border-slate-300 mb-2">
+            Aktivitas 5: Menyelesaikan Soal Cerita Sederhana
+          </h4>
+          <p class="text-sm font-semibold mb-2">
+            Rani memiliki <strong>3 ikat pensil</strong> (setiap ikat berisi 10 pensil) dan <strong>7 pensil satuan</strong>. Berapa jumlah seluruh pensil Rani?
+          </p>
+          <div class="flex flex-wrap items-center gap-2 text-sm font-bold">
+            <span>Jawaban: 3 Puluhan + 7 Satuan =</span>
+            <input type="number" data-ans="37" class="lkpd-check w-20 text-center border-2 border-slate-500 rounded py-0.5" />
+            <span>pensil.</span>
+          </div>
+        </div>
+
+        <!-- Skor Digital & Paraf Cetak -->
+        <div class="pt-2 border-t-2 border-slate-400 flex flex-wrap justify-between items-center text-xs sm:text-sm font-bold">
+          <span id="lkpd-score-banner" class="text-emerald-700">Status: Siap dikerjakan / dicetak A4</span>
+          <span class="border border-slate-800 px-4 py-1.5 rounded">Nilai Guru: _________</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         6. MENU EVALUASI (10 PILIHAN GANDA + 5 ISIAN SINGKAT)
+         ======================================================= -->
+    <section id="page-evaluasi" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-5 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-2 border-purple-100 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-extrabold uppercase text-purple-600">Menu 6 • Penilaian Akhir</span>
+            <h2 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Evaluasi Pemahaman Siswa</h2>
+          </div>
+          <span class="bg-purple-100 text-purple-900 font-extrabold px-4 py-1.5 rounded-full text-xs sm:text-sm">
+            10 Pilihan Ganda + 5 Isian Singkat
+          </span>
+        </div>
+
+        <!-- Layar Awal Evaluasi -->
+        <div id="eval-start-screen" class="max-w-lg mx-auto bg-purple-50 rounded-3xl p-6 border-2 border-purple-200 space-y-4">
+          <div class="text-center">
+            <span class="text-5xl">🏅</span>
+            <h3 class="font-display font-bold text-2xl text-purple-950 mt-2">Siap Mengerjakan Evaluasi?</h3>
+            <p class="text-sm font-bold text-slate-600 mt-1">Terdapat 15 soal (10 pilihan ganda dan 5 isian singkat). Kerjakan dengan teliti ya!</p>
+          </div>
+          <div>
+            <label class="block text-sm font-extrabold text-slate-700 mb-1">Nama Lengkap Siswa:</label>
+            <input type="text" id="eval-name-input" placeholder="Tulis namamu di sini..." class="w-full px-4 py-3 rounded-2xl border-2 border-purple-300 bg-white font-bold focus:outline-none focus:border-purple-600" />
+          </div>
+          <p id="eval-name-error" class="hidden text-rose-600 text-sm font-bold text-center">⚠️ Tuliskan namamu terlebih dahulu sebelum mulai!</p>
+          <button onclick="startEvaluasiSession()" class="btn-3d btn-green w-full py-3.5 text-lg">
+            <span>🚀</span><span>Mulai Evaluasi Sekarang</span>
+          </button>
+        </div>
+
+        <!-- Layar Soal Satu per Satu -->
+        <div id="eval-question-screen" class="hidden space-y-5">
+          <!-- Diisi dinamis oleh JS -->
+        </div>
+
+        <!-- Layar Hasil Evaluasi -->
+        <div id="eval-result-screen" class="hidden space-y-6">
+          <!-- Diisi dinamis oleh JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         7. MENU PENGEMBANG
+         ======================================================= -->
+    <section id="page-pengembang" class="hidden space-y-6 animate-pop">
+      <div class="clay-card p-6 sm:p-10 max-w-3xl mx-auto bg-gradient-to-br from-teal-50 via-white to-sky-50">
+        <div class="text-center border-b-2 border-teal-100 pb-6 mb-6">
+          <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-teal-400 to-blue-600 p-1.5 shadow-xl mb-4">
+            <div class="w-full h-full rounded-full bg-white flex items-center justify-center text-6xl">
+              👩‍🏫
+            </div>
+          </div>
+          <span class="bg-teal-100 text-teal-800 text-xs font-extrabold uppercase px-3.5 py-1 rounded-full">Profil Pengembang Media</span>
+          <h2 class="font-display font-bold text-2xl sm:text-4xl text-slate-800 mt-2">Syifa Lutfiana Pangestu, S.Pd.</h2>
+          <p class="font-bold text-teal-700 text-base sm:text-lg mt-1">Guru Sekolah Dasar • SDN 3 Kelaten</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-sm sm:text-base">
+          <div class="bg-white rounded-2xl p-4 border-2 border-teal-100 shadow-sm">
+            <span class="text-xs font-extrabold text-slate-400 uppercase">Instansi</span>
+            <p class="font-bold text-slate-800">SDN 3 Kelaten</p>
+          </div>
+          <div class="bg-white rounded-2xl p-4 border-2 border-teal-100 shadow-sm">
+            <span class="text-xs font-extrabold text-slate-400 uppercase">Jabatan & Mata Pelajaran</span>
+            <p class="font-bold text-slate-800">Guru Sekolah Dasar — Matematika</p>
+          </div>
+        </div>
+
+        <div class="bg-sky-50 rounded-3xl p-5 border-2 border-sky-200 space-y-3 text-slate-700 font-semibold text-sm sm:text-base leading-relaxed">
+          <p>
+            Media Pembelajaran Interaktif (MPI) <strong>"PETUALANGAN ANGKA: Mengenal Puluhan dan Satuan"</strong> ini dikembangkan untuk membantu peserta didik Kelas 1 SD (Fase A) memahami konsep puluhan dan satuan (cakupan bilangan 0–99) melalui pembelajaran yang interaktif, visual, dan menyenangkan.
+          </p>
+          <div class="bg-amber-100 border-2 border-amber-300 rounded-2xl p-4 text-center font-display font-bold text-lg sm:text-xl text-amber-950">
+            "Belajar Matematika itu menyenangkan. Ayo terus berlatih dan jangan takut mencoba!"
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <button onclick="speakText('Profil pengembang media. Nama: Syifa Lutfiana Pangestu, Sarjana Pendidikan. Instansi: SD Negeri 3 Kelaten. Belajar Matematika itu menyenangkan. Ayo terus berlatih dan jangan takut mencoba!')" class="btn-3d btn-orange px-5 py-2.5 text-sm">
+            <span>🔊</span><span>Dengarkan Profil</span>
+          </button>
+          <button onclick="requestNavigate('menu')" class="btn-3d btn-blue px-5 py-2.5 text-sm">
+            <span>🏠</span><span>Kembali ke Menu Utama</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       JAVASCRIPT LENGKAP: AUDIO, NAVIGASI, 7 MENU INTERAKTIF
+       ========================================================= -->
+  <script>
+    /* ===========================================================
+       1. SISTEM AUDIO (WEB SPEECH API ID-ID + WEB AUDIO SFX & BGM)
+       =========================================================== */
+    let isMuted = false;
+    let isBgmPlaying = false;
+    let lastSpokenText = 'Selamat datang di Petualangan Angka: Mengenal Puluhan dan Satuan!';
+    let audioCtx = null;
+    let bgmTimer = null;
+    let bgmNoteIdx = 0;
+
+    function ensureAudioCtx() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Efek suara interaktif (tanpa file eksternal)
+    function playSFX(kind) {
+      if (isMuted) return;
+      try {
+        ensureAudioCtx();
+        if (!audioCtx) return;
+        const now = audioCtx.currentTime;
+
+        if (kind === 'click') {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(520, now);
+          o.frequency.exponentialRampToValueAtTime(760, now + 0.08);
+          g.gain.setValueAtTime(0.14, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          o.connect(g); g.connect(audioCtx.destination);
+          o.start(now); o.stop(now + 0.09);
+        } else if (kind === 'block') {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'triangle';
+          o.frequency.setValueAtTime(380, now);
+          o.frequency.exponentialRampToValueAtTime(580, now + 0.11);
+          g.gain.setValueAtTime(0.18, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+          o.connect(g); g.connect(audioCtx.destination);
+          o.start(now); o.stop(now + 0.12);
+        } else if (kind === 'correct') {
+          [523.25, 659.25, 783.99].forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'triangle';
+            o.frequency.setValueAtTime(freq, now + idx * 0.09);
+            g.gain.setValueAtTime(0.2, now + idx * 0.09);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.24);
+            o.connect(g); g.connect(audioCtx.destination);
+            o.start(now + idx * 0.09); o.stop(now + idx * 0.09 + 0.25);
+          });
+        } else if (kind === 'wrong') {
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sawtooth';
+          o.frequency.setValueAtTime(210, now);
+          o.frequency.linearRampToValueAtTime(150, now + 0.24);
+          g.gain.setValueAtTime(0.13, now);
+          g.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          o.connect(g); g.connect(audioCtx.destination);
+          o.start(now); o.stop(now + 0.25);
+        } else if (kind === 'win') {
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.type = 'sine';
+            o.frequency.setValueAtTime(freq, now + idx * 0.11);
+            g.gain.setValueAtTime(0.22, now + idx * 0.11);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.36);
+            o.connect(g); g.connect(audioCtx.destination);
+            o.start(now + idx * 0.11); o.stop(now + idx * 0.11 + 0.38);
+          });
+        }
+      } catch (e) {}
+    }
+
+    // Musik Latar Ceria (Synthesizer lembut ramah anak)
+    const BGM_MELODY = [523.25, 659.25, 783.99, 659.25, 587.33, 698.46, 880.00, 698.46];
+    function startBGM() {
+      if (isBgmPlaying) return;
+      isBgmPlaying = true;
+      updateAudioButtonsUI();
+      bgmTimer = setInterval(() => {
+        if (isMuted || !isBgmPlaying) return;
+        try {
+          ensureAudioCtx();
+          if (!audioCtx) return;
+          const now = audioCtx.currentTime;
+          const o = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          o.type = 'sine';
+          o.frequency.setValueAtTime(BGM_MELODY[bgmNoteIdx % BGM_MELODY.length], now);
+          g.gain.setValueAtTime(0.035, now);
+          g.gain.exponentialRampToValueAtTime(0.0008, now + 0.42);
+          o.connect(g); g.connect(audioCtx.destination);
+          o.start(now); o.stop(now + 0.44);
+          bgmNoteIdx++;
+        } catch (e) {}
+      }, 480);
+    }
+
+    function stopBGM() {
+      isBgmPlaying = false;
+      if (bgmTimer) clearInterval(bgmTimer);
+      bgmTimer = null;
+      updateAudioButtonsUI();
+    }
+
+    function toggleBGM() {
+      if (isBgmPlaying) {
+        stopBGM();
+        showToast('Musik latar dimatikan.', '🎵');
+      } else {
+        if (isMuted) {
+          isMuted = false;
+        }
+        startBGM();
+        showToast('Musik latar ceria dihidupkan!', '🎶');
+      }
+    }
+
+    // Web Speech API Bahasa Indonesia (id-ID)
+    function speakText(text) {
+      lastSpokenText = text;
+      if (isMuted) return;
+      if (!('speechSynthesis' in window)) {
+        // Mekanisme alternatif jika browser tidak mendukung SpeechSynthesis
+        showToast(text, '💬');
+        return;
+      }
+      try {
+        // Hentikan suara sebelumnya agar tidak bertumpuk
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'id-ID';
+        utter.rate = 0.94;
+        utter.pitch = 1.15;
+
+        const voices = window.speechSynthesis.getVoices();
+        const idVoice = voices.find(v => v.lang.toLowerCase().includes('id'));
+        if (idVoice) utter.voice = idVoice;
+
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        showToast(text, '💬');
+      }
+    }
+
+    function repeatLastSpeech() {
+      playSFX('click');
+      if (isMuted) {
+        showToast('Suara sedang dimatikan. Klik tombol Suara On terlebih dahulu.', '🔇');
+        return;
+      }
+      speakText(lastSpokenText);
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      showToast('Suara narator dihentikan.', '⏹️');
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      if (isMuted && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      updateAudioButtonsUI();
+      showToast(isMuted ? 'Semua suara dimatikan.' : 'Suara diaktifkan kembali!', isMuted ? '🔇' : '🔊');
+    }
+
+    function updateAudioButtonsUI() {
+      const mIcon = document.getElementById('mute-icon');
+      const mLabel = document.getElementById('mute-label');
+      const bIcon = document.getElementById('bgm-icon');
+      const bLabel = document.getElementById('bgm-label');
+      if (mIcon) mIcon.textContent = isMuted ? '🔇' : '🔊';
+      if (mLabel) mLabel.textContent = isMuted ? 'Suara Off' : 'Suara On';
+      if (bIcon) bIcon.textContent = isBgmPlaying ? '🎶' : '🎵';
+      if (bLabel) bLabel.textContent = isBgmPlaying ? 'Musik On' : 'Musik Off';
+    }
+
+    /* ===========================================================
+       2. TOAST, KONFETI, MODAL PETUNJUK & PENGATURAN SUARA
+       =========================================================== */
+    let toastTimer = null;
+    function showToast(msg, icon = '🌟') {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-text').textContent = msg;
+      document.getElementById('toast-icon').textContent = icon;
+      box.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add('hidden'), 3400);
+    }
+
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const palette = ['#60A5FA', '#F472B6', '#FACC15', '#4ADE80', '#FB923C', '#C084FC'];
+      const pieces = Array.from({ length: 85 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        s: Math.random() * 10 + 6,
+        c: palette[Math.floor(Math.random() * palette.length)],
+        vy: Math.random() * 4 + 2.5,
+        vx: Math.random() * 3 - 1.5,
+        r: Math.random() * 360
+      }));
+      let step = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.vy;
+          p.x += p.vx;
+          p.r += 4;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.r * Math.PI) / 180);
+          ctx.fillStyle = p.c;
+          ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s);
+          ctx.restore();
+        });
+        step++;
+        if (step < 120) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      draw();
+    }
+
+    function openModal(htmlContent) {
+      const overlay = document.getElementById('modal-overlay');
+      document.getElementById('modal-card').innerHTML = htmlContent;
+      overlay.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.add('hidden');
+    }
+
+    function openAudioSettingsModal() {
+      playSFX('click');
+      openModal(`
+        <div class="text-center space-y-4">
+          <span class="text-5xl">🎛️</span>
+          <h3 class="font-display font-bold text-2xl text-slate-800">Pengaturan Suara & Musik</h3>
+          <p class="text-sm font-bold text-slate-600">Atur suara narator Bahasa Indonesia dan musik latar ceria.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <button onclick="toggleMute(); closeModal();" class="btn-3d btn-yellow py-3 text-base">
+              <span>${isMuted ? '🔊 Hidupkan Suara' : '🔇 Matikan Suara'}</span>
+            </button>
+            <button onclick="toggleBGM(); closeModal();" class="btn-3d btn-purple py-3 text-base">
+              <span>${isBgmPlaying ? '🎵 Matikan Musik' : '🎶 Hidupkan Musik'}</span>
+            </button>
+          </div>
+          <button onclick="speakText('Halo! Ini adalah tes suara narator bahasa Indonesia untuk Petualangan Angka.');" class="btn-3d btn-orange w-full py-2.5 text-sm">
+            <span>🗣️ Tes Suara Narator</span>
+          </button>
+          <button onclick="closeModal()" class="btn-3d btn-blue w-full py-2.5 text-sm">Tutup</button>
+        </div>
+      `);
+    }
+
+    function openHelpModal() {
+      playSFX('click');
+      speakText('Petunjuk penggunaan aplikasi. Gunakan tujuh menu utama untuk belajar materi, mencoba simulasi balok, praktikum, bermain game, mengerjakan LKPD, dan evaluasi.');
+      openModal(`
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">📘</span>
+            <h3 class="font-display font-bold text-2xl text-slate-800">Petunjuk Penggunaan</h3>
+          </div>
+          <ul class="space-y-2 text-sm font-bold text-slate-700">
+            <li>1️⃣ Klik tombol <strong>🔊 Dengarkan</strong> di setiap halaman untuk mendengar penjelasan suara.</li>
+            <li>2️⃣ Gunakan <strong>Simulasi</strong> & <strong>Praktikum</strong> untuk menyusun batang puluhan (10) dan kubus satuan (1).</li>
+            <li>3️⃣ Kumpulkan bintang di menu <strong>Game</strong>, lalu kerjakan <strong>LKPD</strong> (bisa dicetak A4) dan <strong>Evaluasi</strong>.</li>
+          </ul>
+          <button onclick="closeModal()" class="btn-3d btn-green w-full py-2.5 text-base">Mengerti! 👍</button>
+        </div>
+      `);
+    }
+
+    function openObjectivesModal() {
+      playSFX('click');
+      speakText('Tujuan pembelajaran hari ini: mengenal konsep puluhan dan satuan, memahami sepuluh satuan sama dengan satu puluhan, menentukan nilai tempat, serta menguraikan bilangan nol sampai sembilan puluh sembilan.');
+      openModal(`
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">🎯</span>
+            <h3 class="font-display font-bold text-2xl text-slate-800">Tujuan Pembelajaran</h3>
+          </div>
+          <ol class="list-decimal list-inside space-y-2 text-sm font-bold text-slate-700">
+            <li>Mengenal konsep puluhan dan satuan.</li>
+            <li>Memahami bahwa 10 satuan dapat dikelompokkan menjadi 1 puluhan.</li>
+            <li>Menentukan jumlah puluhan dan satuan dari suatu bilangan (0–99).</li>
+            <li>Menentukan nilai tempat angka pada bilangan dua angka.</li>
+            <li>Menguraikan bilangan menjadi puluhan dan satuan.</li>
+          </ol>
+          <button onclick="closeModal()" class="btn-3d btn-blue w-full py-2.5 text-base">Ayo Mulai Belajar! 🚀</button>
+        </div>
+      `);
+    }
+
+    /* ===========================================================
+       3. NAVIGASI, PROGRESS BELAJAR & KONFIRMASI KELUAR EVALUASI
+       =========================================================== */
+    let currentPage = 'splash';
+    let pageHistory = ['menu'];
+    let isEvalActive = false;
+    const visitedMenus = new Set();
+
+    function updateProgressAndStars() {
+      const count = visitedMenus.size;
+      const pct = Math.min(100, Math.round((count / 7) * 100));
+      const bar = document.getElementById('header-progress-bar');
+      const txt = document.getElementById('header-progress-text');
+      if (bar) bar.style.width = `${Math.max(14, pct)}%`;
+      if (txt) txt.textContent = `${count}/7`;
+
+      visitedMenus.forEach(m => {
+        const b = document.getElementById('badge-done-' + m);
+        if (b) {
+          b.textContent = '✔ Dibuka';
+          b.className = 'text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500 text-white';
+        }
+      });
+
+      const totalStars = (sessionStars.g1 || 0) + (sessionStars.g2 || 0) + (sessionStars.g3 || 0);
+      const starHeader = document.getElementById('header-stars-total');
+      const starGame = document.getElementById('game-stars-summary');
+      if (starHeader) starHeader.textContent = totalStars;
+      if (starGame) starGame.textContent = totalStars;
+    }
+
+    function startLearningFromSplash() {
+      playSFX('win');
+      document.getElementById('page-splash').classList.add('hidden');
+      document.getElementById('global-header').classList.remove('hidden');
+      navigateToPage('menu', false);
+      speakText('Halo adik-adik! Selamat datang di Petualangan Angka: Mengenal Puluhan dan Satuan. Ayo pilih salah satu dari tujuh menu belajar!');
+    }
+
+    function requestNavigate(targetPage) {
+      // Konfirmasi sebelum keluar dari evaluasi yang sedang berlangsung
+      if (currentPage === 'evaluasi' && isEvalActive && targetPage !== 'evaluasi') {
+        playSFX('wrong');
+        openModal(`
+          <div class="text-center space-y-4">
+            <span class="text-5xl">⚠️</span>
+            <h3 class="font-display font-bold text-2xl text-slate-800">Keluar dari Evaluasi?</h3>
+            <p class="text-sm font-bold text-slate-600">Evaluasi sedang berlangsung. Jika kamu keluar sekarang, jawabanmu belum tersimpan.</p>
+            <div class="flex gap-3 pt-2">
+              <button onclick="closeModal()" class="btn-3d btn-green flex-1 py-2.5 text-sm">Lanjut Evaluasi</button>
+              <button onclick="isEvalActive = false; closeModal(); navigateToPage('${targetPage}', true);" class="btn-3d btn-pink flex-1 py-2.5 text-sm">Ya, Keluar</button>
+            </div>
+          </div>
+        `);
+        return;
+      }
+      navigateToPage(targetPage, true);
+    }
+
+    function navigateToPage(targetPage, recordHistory = true) {
+      playSFX('click');
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+      if (recordHistory && currentPage !== targetPage && currentPage !== 'splash') {
+        pageHistory.push(currentPage);
+      }
+      currentPage = targetPage;
+
+      const allPages = ['splash', 'menu', 'materi', 'simulasi', 'praktikum', 'game', 'lkpd', 'evaluasi', 'pengembang'];
+      allPages.forEach(p => {
+        const el = document.getElementById('page-' + p);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activeEl = document.getElementById('page-' + targetPage);
+      if (activeEl) {
+        activeEl.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Highlight tab navigasi atas
+      document.querySelectorAll('.nav-pill').forEach(btn => {
+        if (btn.dataset.tab === targetPage) {
+          btn.className = 'nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold bg-blue-600 text-white shadow';
+        } else {
+          btn.className = 'nav-pill px-2.5 py-1 rounded-xl text-xs font-extrabold text-slate-600 hover:bg-sky-200';
+        }
+      });
+
+      if (['materi', 'simulasi', 'praktikum', 'game', 'lkpd', 'evaluasi', 'pengembang'].includes(targetPage)) {
+        visitedMenus.add(targetPage);
+        updateProgressAndStars();
+      }
+
+      // Inisialisasi konten per menu
+      if (targetPage === 'materi') renderMateriTab();
+      if (targetPage === 'simulasi') renderSimulasi();
+      if (targetPage === 'praktikum') initPraktikumIfNeeded();
+      if (targetPage === 'game') renderGameHub();
+      if (targetPage === 'lkpd') renderLKPDVisuals();
+    }
+
+    function goBackPage() {
+      const prev = pageHistory.length > 0 ? pageHistory.pop() : 'menu';
+      requestNavigate(prev);
+    }
+
+    /* ===========================================================
+       4. HELPER RENDER BLOK DIENES & TERBILANG ANGKA (0-99)
+       =========================================================== */
+    function renderRodSVGorCSS(compact = false) {
+      let segs = '';
+      for (let i = 0; i < 10; i++) {
+        segs += `<div class="${compact ? 'flex-1 border-b border-white/60' : 'dienes-rod-seg'}"></div>`;
+      }
+      if (compact) {
+        return `<div class="w-4 h-20 flex flex-col rounded bg-gradient-to-r from-blue-500 to-blue-600 border border-blue-800 shadow">${segs}</div>`;
+      }
+      return `<div class="dienes-rod animate-pop" title="1 Batang Puluhan = 10">${segs}</div>`;
+    }
+
+    function renderCubeCSS(compact = false) {
+      if (compact) {
+        return `<div class="w-4 h-4 rounded bg-gradient-to-br from-yellow-300 to-amber-500 border border-amber-700 shadow"></div>`;
+      }
+      return `<div class="dienes-cube animate-pop" title="1 Kubus Satuan = 1"></div>`;
+    }
+
+    function renderBlocksGroup(tens, ones, compact = false) {
+      let html = '<div class="flex flex-wrap items-end justify-center gap-3">';
+      if (tens > 0) {
+        html += '<div class="flex items-end gap-1.5 bg-blue-50/90 p-2 rounded-2xl border border-blue-200">';
+        for (let i = 0; i < tens; i++) html += renderRodSVGorCSS(compact);
+        html += '</div>';
+      }
+      if (ones > 0) {
+        html += '<div class="grid grid-cols-5 gap-1.5 bg-amber-50/90 p-2 rounded-2xl border border-amber-200">';
+        for (let i = 0; i < ones; i++) html += renderCubeCSS(compact);
+        html += '</div>';
+      }
+      if (tens === 0 && ones === 0) {
+        html += '<span class="text-slate-400 font-bold text-sm">0 (Belum ada balok)</span>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function angkaTerbilang(n) {
+      const dasar = ['Nol', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
+      if (n < 10) return dasar[n];
+      if (n === 10) return 'Sepuluh';
+      if (n === 11) return 'Sebelas';
+      if (n < 20) return dasar[n - 10] + ' Belas';
+      const p = Math.floor(n / 10);
+      const s = n % 10;
+      return dasar[p] + ' Puluh' + (s > 0 ? ' ' + dasar[s] : '');
+    }
+
+    /* ===========================================================
+       5. MENU 1: MATERI PEMBELAJARAN
+       =========================================================== */
+    let activeMateriTab = 0;
+    const MATERI_SECTIONS = [
+      {
+        speech: 'Pengertian puluhan dan satuan. Satuan adalah bilangan yang nilainya satu sampai sembilan, digambarkan dengan kubus kecil berwarna kuning. Puluhan adalah kumpulan sepuluh satuan yang digabung menjadi satu batang panjang berwarna biru.',
+        html: `
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div class="bg-blue-50 rounded-3xl p-5 border-2 border-blue-300 text-center space-y-3">
+              <div class="flex justify-center py-2">${renderRodSVGorCSS(false)}</div>
+              <h3 class="font-display font-bold text-2xl text-blue-800">Pengertian Puluhan</h3>
+              <p class="text-sm sm:text-base font-bold text-slate-700">
+                <strong>Puluhan</strong> adalah kumpulan dari <strong>10 satuan</strong> yang digabung menjadi satu batang panjang. Nilainya adalah <strong>10</strong>.
+              </p>
+            </div>
+            <div class="bg-amber-50 rounded-3xl p-5 border-2 border-amber-300 text-center space-y-3">
+              <div class="flex justify-center items-center h-[180px]">
+                <div class="scale-150">${renderCubeCSS(false)}</div>
+              </div>
+              <h3 class="font-display font-bold text-2xl text-amber-800">Pengertian Satuan</h3>
+              <p class="text-sm sm:text-base font-bold text-slate-700">
+                <strong>Satuan</strong> adalah bilangan tunggal yang nilainya <strong>1 sampai 9</strong>, digambarkan dengan kubus kecil yang terpisah.
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        speech: 'Hubungan sepuluh satuan sama dengan satu puluhan. Jika kamu menghitung sepuluh kubus satuan lalu menggabungkannya, maka sepuluh kubus satuan itu berubah menjadi satu batang puluhan.',
+        html: `
+          <div class="text-center space-y-5">
+            <h3 class="font-display font-bold text-2xl text-slate-800">Hubungan 10 Satuan = 1 Puluhan</h3>
+            <p class="font-bold text-slate-700 max-w-2xl mx-auto">
+              Setiap kali kubus satuan terkumpul sebanyak <strong>10 buah</strong>, kita ikat atau kelompokkan menjadi <strong>1 batang puluhan</strong>!
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-6 bg-white p-6 rounded-3xl border-2 border-sky-200">
+              <div>
+                <div class="grid grid-cols-5 gap-2 p-3 bg-amber-50 rounded-2xl border border-amber-300">
+                  ${Array(10).fill(renderCubeCSS(true)).join('')}
+                </div>
+                <span class="font-extrabold text-amber-700 text-sm mt-2 block">10 Kubus Satuan</span>
+              </div>
+              <span class="font-display font-bold text-4xl text-emerald-600">=</span>
+              <div>
+                <div class="p-3 bg-blue-50 rounded-2xl border border-blue-300 flex justify-center">
+                  ${renderRodSVGorCSS(false)}
+                </div>
+                <span class="font-extrabold text-blue-700 text-sm mt-2 block">1 Batang Puluhan</span>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        speech: 'Mengenal nilai tempat dan menguraikan bilangan. Pada bilangan dua angka, angka di sebelah kiri menempati nilai tempat puluhan, sedangkan angka di sebelah kanan menempati nilai tempat satuan.',
+        html: `
+          <div class="space-y-5 text-center">
+            <h3 class="font-display font-bold text-2xl text-slate-800">Mengenal Nilai Tempat & Menguraikan Bilangan</h3>
+            <div class="max-w-xl mx-auto bg-white rounded-3xl p-6 border-2 border-purple-200 space-y-4">
+              <div class="flex justify-center gap-4">
+                <div class="bg-blue-100 border-3 border-blue-500 rounded-2xl px-6 py-4">
+                  <span class="font-display font-bold text-5xl text-blue-700">2</span>
+                  <p class="font-extrabold text-xs text-blue-900 mt-1">PULUHAN (20)</p>
+                </div>
+                <div class="bg-amber-100 border-3 border-amber-500 rounded-2xl px-6 py-4">
+                  <span class="font-display font-bold text-5xl text-amber-700">5</span>
+                  <p class="font-extrabold text-xs text-amber-900 mt-1">SATUAN (5)</p>
+                </div>
+              </div>
+              <p class="font-bold text-slate-700 text-base sm:text-lg">
+                Bilangan <strong>25</strong> diuraikan menjadi: <span class="text-blue-700">2 Puluhan</span> + <span class="text-amber-700">5 Satuan</span> = <strong>20 + 5</strong>
+              </p>
+            </div>
+          </div>
+        `
+      },
+      {
+        speech: 'Contoh visual bilangan dua puluh lima, tiga puluh empat, dan empat puluh delapan. Dua puluh lima terdiri dari dua batang puluhan dan lima kubus satuan, sama dengan dua puluh ditambah lima. Tiga puluh empat sama dengan tiga puluh ditambah empat. Empat puluh delapan sama dengan empat puluh ditambah delapan.',
+        html: `
+          <div class="space-y-4">
+            <h3 class="font-display font-bold text-2xl text-slate-800 text-center">Contoh Visual Blok Dienes (25, 34, dan 48)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Bilangan 25 -->
+              <div class="bg-white rounded-3xl p-4 border-2 border-blue-200 text-center space-y-2 shadow-sm">
+                <span class="inline-block bg-blue-600 text-white font-display font-bold text-2xl px-4 py-1 rounded-xl">Bilangan 25</span>
+                <div class="py-2">${renderBlocksGroup(2, 5, true)}</div>
+                <p class="text-xs sm:text-sm font-bold text-slate-700">2 batang puluhan & 5 kubus satuan</p>
+                <p class="bg-blue-50 py-1.5 rounded-xl font-display font-bold text-blue-800">25 = 20 + 5</p>
+              </div>
+              <!-- Bilangan 34 -->
+              <div class="bg-white rounded-3xl p-4 border-2 border-pink-200 text-center space-y-2 shadow-sm">
+                <span class="inline-block bg-pink-600 text-white font-display font-bold text-2xl px-4 py-1 rounded-xl">Bilangan 34</span>
+                <div class="py-2">${renderBlocksGroup(3, 4, true)}</div>
+                <p class="text-xs sm:text-sm font-bold text-slate-700">3 batang puluhan & 4 kubus satuan</p>
+                <p class="bg-pink-50 py-1.5 rounded-xl font-display font-bold text-pink-800">34 = 30 + 4</p>
+              </div>
+              <!-- Bilangan 48 -->
+              <div class="bg-white rounded-3xl p-4 border-2 border-emerald-200 text-center space-y-2 shadow-sm">
+                <span class="inline-block bg-emerald-600 text-white font-display font-bold text-2xl px-4 py-1 rounded-xl">Bilangan 48</span>
+                <div class="py-2">${renderBlocksGroup(4, 8, true)}</div>
+                <p class="text-xs sm:text-sm font-bold text-slate-700">4 batang puluhan & 8 kubus satuan</p>
+                <p class="bg-emerald-50 py-1.5 rounded-xl font-display font-bold text-emerald-800">48 = 40 + 8</p>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    ];
+
+    function selectMateriTab(idx) {
+      playSFX('click');
+      activeMateriTab = idx;
+      renderMateriTab();
+    }
+
+    function stepMateri(dir) {
+      const next = activeMateriTab + dir;
+      if (next >= 0 && next < MATERI_SECTIONS.length) {
+        selectMateriTab(next);
+      } else if (next >= MATERI_SECTIONS.length) {
+        requestNavigate('simulasi');
+      }
+    }
+
+    function renderMateriTab() {
+      document.getElementById('materi-body').innerHTML = MATERI_SECTIONS[activeMateriTab].html;
+      document.getElementById('materi-page-num').textContent = `Bagian ${activeMateriTab + 1} dari ${MATERI_SECTIONS.length}`;
+      document.getElementById('btn-m-prev').disabled = activeMateriTab === 0;
+      document.getElementById('btn-m-prev').style.opacity = activeMateriTab === 0 ? '0.45' : '1';
+      document.getElementById('btn-m-next').textContent = activeMateriTab === MATERI_SECTIONS.length - 1 ? 'Lanjut ke Simulasi ➔' : 'Bagian Berikutnya ➔';
+
+      document.querySelectorAll('.m-tab-btn').forEach((b, i) => {
+        b.className = i === activeMateriTab
+          ? 'm-tab-btn px-3.5 py-2 rounded-2xl font-extrabold text-xs sm:text-sm bg-blue-600 text-white shadow'
+          : 'm-tab-btn px-3.5 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sky-100 text-sky-900 hover:bg-sky-200';
+      });
+    }
+
+    function speakCurrentMateri() {
+      speakText(MATERI_SECTIONS[activeMateriTab].speech);
+    }
+
+    /* ===========================================================
+       6. MENU 2: SIMULASI INTERAKTIF (AUTO-GROUPING 10 SATUAN -> 1 PULUHAN)
+       =========================================================== */
+    let simTens = 0;
+    let simOnes = 0;
+    let lastSimMessage = 'Ayo klik tombol tambah puluhan atau tambah satuan untuk membentuk bilangan!';
+
+    function changeSimTens(delta) {
+      const next = simTens + delta;
+      if (next < 0) {
+        showToast('Batang puluhan sudah nol!', 'ℹ️');
+        return;
+      }
+      if (next > 9) {
+        showToast('Maksimal 9 batang puluhan (cakupan bilangan 0–99)!', '🧱');
+        speakText('Maksimal sembilan batang puluhan ya!');
+        return;
+      }
+      simTens = next;
+      playSFX('block');
+      const total = simTens * 10 + simOnes;
+      lastSimMessage = delta > 0
+        ? `Menambah 1 batang puluhan. Sekarang ada ${simTens} puluhan dan ${simOnes} satuan, menjadi bilangan ${total}.`
+        : `Mengurangi 1 batang puluhan. Sekarang bilangannya adalah ${total}.`;
+      renderSimulasi();
+      speakText(lastSimMessage);
+    }
+
+    function changeSimOnes(delta) {
+      if (delta > 0) {
+        if (simTens === 9 && simOnes === 9) {
+          showToast('Bilangan sudah mencapai 99!', '🌟');
+          speakText('Bilangan sudah mencapai sembilan puluh sembilan!');
+          return;
+        }
+        simOnes += 1;
+        // Pengelompokan otomatis ketika satuan mencapai 10!
+        if (simOnes === 10) {
+          simOnes = 0;
+          simTens += 1;
+          playSFX('correct');
+          const total = simTens * 10 + simOnes;
+          lastSimMessage = `Hebat! 10 kubus satuan otomatis dikelompokkan menjadi 1 batang puluhan! Sekarang bilangannya ${total}.`;
+          showToast('10 satuan dikelompokkan menjadi 1 puluhan!', '✨');
+          renderSimulasi(true);
+          speakText(lastSimMessage);
+          return;
+        }
+        playSFX('block');
+        const total = simTens * 10 + simOnes;
+        lastSimMessage = `Menambah 1 kubus satuan. Sekarang bilangannya adalah ${total}.`;
+        renderSimulasi();
+        speakText(lastSimMessage);
+      } else {
+        if (simOnes <= 0) {
+          showToast('Kubus satuan sudah nol!', 'ℹ️');
+          return;
+        }
+        simOnes -= 1;
+        playSFX('block');
+        const total = simTens * 10 + simOnes;
+        lastSimMessage = `Mengurangi 1 kubus satuan. Sekarang bilangannya adalah ${total}.`;
+        renderSimulasi();
+        speakText(lastSimMessage);
+      }
+    }
+
+    function resetSimulasi() {
+      playSFX('click');
+      simTens = 0;
+      simOnes = 0;
+      lastSimMessage = 'Simulasi direset menjadi nol.';
+      renderSimulasi();
+      speakText(lastSimMessage);
+    }
+
+    function renderSimulasi(justBundled = false) {
+      const tensStage = document.getElementById('sim-tens-stage');
+      const onesStage = document.getElementById('sim-ones-stage');
+
+      tensStage.innerHTML = simTens === 0
+        ? '<span class="text-slate-400 font-bold text-sm self-center">Klik "➕ Tambah Puluhan"</span>'
+        : Array(simTens).fill(renderRodSVGorCSS(false)).join('');
+
+      if (justBundled && tensStage.lastElementChild) {
+        tensStage.lastElementChild.classList.add('animate-bundled');
+      }
+
+      onesStage.innerHTML = simOnes === 0
+        ? '<span class="text-slate-400 font-bold text-sm self-center">Klik "➕ Tambah Satuan"</span>'
+        : Array(simOnes).fill(renderCubeCSS(false)).join('');
+
+      const total = simTens * 10 + simOnes;
+      document.getElementById('sim-tens-label').textContent = `${simTens} Puluhan (${simTens * 10})`;
+      document.getElementById('sim-ones-label').textContent = `${simOnes} Satuan`;
+      document.getElementById('sim-result-num').textContent = total;
+      document.getElementById('sim-result-words').textContent = `"${angkaTerbilang(total)}"`;
+      document.getElementById('sim-result-expanded').textContent = `${simTens * 10} + ${simOnes} = ${total}`;
+      document.getElementById('sim-result-places').textContent = `${simTens} Puluhan + ${simOnes} Satuan`;
+      document.getElementById('sim-activity-text').textContent = lastSimMessage;
+    }
+
+    function speakSimulasiNarration() {
+      const total = simTens * 10 + simOnes;
+      speakText(`Bilangan saat ini adalah ${total}, dibaca ${angkaTerbilang(total)}. Terdiri dari ${simTens} puluhan dan ${simOnes} satuan.`);
+    }
+
+    /* ===========================================================
+       7. MENU 3: PRAKTIKUM MENYUSUN BILANGAN
+       =========================================================== */
+    const PRAK_PRESETS = [23, 35, 42, 57, 69];
+    let prakTarget = null;
+    let prakTens = 0;
+    let prakOnes = 0;
+    let prakSolved = 0;
+
+    function initPraktikumIfNeeded() {
+      if (prakTarget === null) newPraktikumChallenge(false);
+    }
+
+    function newPraktikumChallenge(withVoice = true) {
+      playSFX('click');
+      // Pilih dari preset atau angka acak 11-89
+      const pool = [...PRAK_PRESETS, 18, 27, 31, 46, 54, 63, 75, 84];
+      let next = pool[Math.floor(Math.random() * pool.length)];
+      if (next === prakTarget) next = PRAK_PRESETS[(PRAK_PRESETS.indexOf(next) + 1) % PRAK_PRESETS.length];
+      prakTarget = next;
+      prakTens = 0;
+      prakOnes = 0;
+
+      document.getElementById('prak-target-number').textContent = prakTarget;
+      document.getElementById('prak-feedback').classList.add('hidden');
+      renderPraktikumStage();
+      if (withVoice) speakPraktikumInstruction();
+    }
+
+    function speakPraktikumInstruction() {
+      speakText(`Ayo, buat bilangan ${prakTarget} menggunakan balok puluhan dan satuan!`);
+    }
+
+    function changePrakTens(d) {
+      const next = prakTens + d;
+      if (next < 0 || next > 9) return;
+      prakTens = next;
+      playSFX('block');
+      renderPraktikumStage();
+    }
+
+    function changePrakOnes(d) {
+      const next = prakOnes + d;
+      if (next < 0 || next > 9) return;
+      prakOnes = next;
+      playSFX('block');
+      renderPraktikumStage();
+    }
+
+    function resetPraktikumBlocks() {
+      playSFX('click');
+      prakTens = 0;
+      prakOnes = 0;
+      document.getElementById('prak-feedback').classList.add('hidden');
+      renderPraktikumStage();
+    }
+
+    function renderPraktikumStage() {
+      document.getElementById('prak-tens-val').textContent = prakTens;
+      document.getElementById('prak-ones-val').textContent = prakOnes;
+      document.getElementById('prak-tens-stage').innerHTML = prakTens === 0
+        ? '<span class="text-slate-400 text-xs font-bold self-center">Klik "➕ Puluhan"</span>'
+        : Array(prakTens).fill(renderRodSVGorCSS(false)).join('');
+      document.getElementById('prak-ones-stage').innerHTML = prakOnes === 0
+        ? '<span class="text-slate-400 text-xs font-bold self-center">Klik "➕ Satuan"</span>'
+        : Array(prakOnes).fill(renderCubeCSS(false)).join('');
+    }
+
+    function checkPraktikumAnswer() {
+      const formed = prakTens * 10 + prakOnes;
+      const fb = document.getElementById('prak-feedback');
+      const targetTens = Math.floor(prakTarget / 10);
+      const targetOnes = prakTarget % 10;
+
+      if (formed === prakTarget) {
+        playSFX('win');
+        triggerConfetti();
+        prakSolved++;
+        document.getElementById('prak-success-count').textContent = prakSolved;
+        fb.className = 'rounded-2xl p-4 mb-4 font-bold text-center text-base sm:text-lg bg-emerald-100 text-emerald-950 border-3 border-emerald-400 block animate-pop';
+        fb.innerHTML = `⭐⭐⭐ <strong>Luar Biasa! Jawabanmu Benar!</strong> Bilangan <strong>${prakTarget}</strong> = ${targetTens} Puluhan + ${targetOnes} Satuan.`;
+        speakText(`Hebat sekali! Jawabanmu benar! Bilangan ${prakTarget} terdiri dari ${targetTens} puluhan dan ${targetOnes} satuan.`);
+      } else {
+        playSFX('wrong');
+        let hint = '';
+        if (prakTens !== targetTens) {
+          hint = `Petunjuk: Bilangan ${prakTarget} membutuhkan ${targetTens} batang puluhan (sekarang baru ada ${prakTens}).`;
+        } else {
+          hint = `Petunjuk: Puluhanmu sudah benar (${targetTens}), tetapi kubus satuannya seharusnya ${targetOnes} buah.`;
+        }
+        fb.className = 'rounded-2xl p-4 mb-4 font-bold text-center text-base sm:text-lg bg-amber-100 text-amber-950 border-3 border-amber-400 block animate-pop';
+        fb.innerHTML = `🤔 Susunanmu bernilai <strong>${formed}</strong>, belum sama dengan <strong>${prakTarget}</strong>.<br><span class="text-sm text-rose-700">${hint}</span>`;
+        speakText(`Belum tepat. Susunanmu masih bernilai ${formed}. ${hint}`);
+      }
+    }
+
+    /* ===========================================================
+       8. MENU 4: 3 GAME EDUKATIF (MINIMAL 5 TANTANGAN TIAP GAME)
+       =========================================================== */
+    const sessionStars = { g1: 0, g2: 0, g3: 0 };
+    let activeGameId = 1;
+    let gRound = 1;
+    let gScore = 0;
+    let gTarget = 0;
+    let gSubMode = 'tens'; // untuk Game 1
+    let gLocked = false;
+
+    function renderGameHub() {
+      document.getElementById('game-stage').classList.add('hidden');
+      document.getElementById('game-hub').classList.remove('hidden');
+      ['g1', 'g2', 'g3'].forEach(k => {
+        const s = sessionStars[k] || 0;
+        const el = document.getElementById(k + '-stars');
+        if (el) el.textContent = '⭐'.repeat(s) + '☆'.repeat(3 - s);
+      });
+      updateProgressAndStars();
+    }
+
+    function launchGame(gameId) {
+      playSFX('click');
+      activeGameId = gameId;
+      gRound = 1;
+      gScore = 0;
+      document.getElementById('game-hub').classList.add('hidden');
+      document.getElementById('game-stage').classList.remove('hidden');
+
+      const titles = {
+        1: 'Game 1: Berburu Angka',
+        2: 'Game 2: Pasangkan Angka',
+        3: 'Game 3: Petualangan Harta Karun'
+      };
+      speakText(`${titles[gameId]} dimulai! Ayo selesaikan lima tantangan untuk mendapatkan bintang!`);
+      renderGameRound();
+    }
+
+    function renderGameRound() {
+      gLocked = false;
+      const stage = document.getElementById('game-stage');
+      // Bilangan acak 11..89
+      gTarget = Math.floor(Math.random() * 79) + 11;
+      const tens = Math.floor(gTarget / 10);
+      const ones = gTarget % 10;
+
+      const gameNames = {
+        1: '🔍 GAME 1: BERBURU ANGKA',
+        2: '🧩 GAME 2: PASANGKAN ANGKA',
+        3: '🏴‍☠️ GAME 3: PETUALANGAN HARTA KARUN'
+      };
+
+      const headerHUD = `
+        <div class="bg-slate-800 text-white rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+          <span class="font-display font-bold text-base sm:text-lg text-amber-300">${gameNames[activeGameId]}</span>
+          <span class="font-bold text-sm sm:text-base">Tantangan <strong class="text-sky-300">${gRound}</strong> / 5</span>
+          <div class="flex items-center gap-3">
+            <span class="font-display font-bold text-emerald-400 text-lg">Skor: ${gScore}</span>
+            <button onclick="renderGameHub()" class="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded-xl text-xs font-bold">Keluar Game</button>
+          </div>
+        </div>
+      `;
+
+      if (activeGameId === 1) {
+        // GAME 1: BERBURU ANGKA (Tentukan jumlah puluhan atau satuan berdasarkan gambar)
+        gSubMode = Math.random() > 0.5 ? 'tens' : 'ones';
+        const correctVal = gSubMode === 'tens' ? tens : ones;
+        const labelAsk = gSubMode === 'tens' ? 'BATANG PULUHAN' : 'KUBUS SATUAN';
+        const opts = new Set([correctVal]);
+        while (opts.size < 4) opts.add(Math.floor(Math.random() * 9) + 1);
+        const shuffled = Array.from(opts).sort(() => Math.random() - 0.5);
+
+        stage.innerHTML = `
+          ${headerHUD}
+          <div class="bg-sky-50 rounded-3xl p-6 border-3 border-sky-200 text-center space-y-5">
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-800">
+              Berapa jumlah <span class="text-blue-600 underline">${labelAsk}</span> pada gambar di bawah ini?
+            </h3>
+            <div class="bg-white rounded-2xl p-5 border border-sky-200">${renderBlocksGroup(tens, ones, false)}</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
+              ${shuffled.map(v => `
+                <button onclick="handleGameChoice(this, ${v === correctVal}, 'Jumlah ${labelAsk.toLowerCase()} adalah ${correctVal}')" class="btn-3d btn-blue py-4 text-2xl sm:text-3xl">${v}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else if (activeGameId === 2) {
+        // GAME 2: PASANGKAN ANGKA (Mencocokkan bilangan dengan gambar batang puluhan & kubus satuan)
+        const pairSet = new Set([gTarget]);
+        const swap = ones * 10 + tens;
+        if (swap >= 10 && swap !== gTarget) pairSet.add(swap);
+        while (pairSet.size < 3) pairSet.add(Math.floor(Math.random() * 79) + 11);
+        const cards = Array.from(pairSet).sort(() => Math.random() - 0.5);
+
+        stage.innerHTML = `
+          ${headerHUD}
+          <div class="bg-pink-50 rounded-3xl p-6 border-3 border-pink-200 text-center space-y-5">
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-800">
+              Klik gambar balok yang sesuai dengan bilangan <span class="bg-rose-600 text-white px-4 py-1 rounded-xl text-3xl">${gTarget}</span> !
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              ${cards.map(num => {
+                const t = Math.floor(num / 10);
+                const o = num % 10;
+                return `
+                  <button onclick="handleGameChoice(this, ${num === gTarget}, 'Bilangan ${gTarget} memiliki ${tens} puluhan dan ${ones} satuan')" class="bg-white hover:bg-amber-50 border-3 border-pink-300 rounded-3xl p-4 flex flex-col items-center justify-center min-h-[175px] shadow transition transform hover:scale-105">
+                    ${renderBlocksGroup(t, o, true)}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        // GAME 3: PETUALANGAN HARTA KARUN
+        const qTypes = [
+          {
+            q: `Kunci Peti ke-${gRound}: Bilangan ${gTarget} diuraikan menjadi ...`,
+            correct: `${tens * 10} + ${ones}`,
+            distractors: [`${ones * 10} + ${tens}`, `${tens} + ${ones}`, `${tens * 10} + 0`]
+          },
+          {
+            q: `Kunci Peti ke-${gRound}: ${tens} Puluhan + ${ones} Satuan = ...`,
+            correct: `${gTarget}`,
+            distractors: [`${ones * 10 + tens}`, `${tens + ones}`, `${tens * 10}`]
+          }
+        ];
+        const picked = qTypes[gRound % 2];
+        const allOpts = Array.from(new Set([picked.correct, ...picked.distractors])).slice(0, 4).sort(() => Math.random() - 0.5);
+
+        stage.innerHTML = `
+          ${headerHUD}
+          <div class="bg-amber-50 rounded-3xl p-6 border-3 border-amber-300 text-center space-y-5">
+            <div class="text-5xl">🧰✨</div>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-amber-950">${picked.q}</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl mx-auto">
+              ${allOpts.map(opt => `
+                <button onclick="handleGameChoice(this, ${opt === picked.correct}, 'Jawaban yang tepat adalah ${picked.correct}')" class="btn-3d btn-orange py-4 text-xl sm:text-2xl">${opt}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function handleGameChoice(btnEl, isCorrect, explainText) {
+      if (gLocked) return;
+      gLocked = true;
+
+      if (isCorrect) {
+        playSFX('correct');
+        gScore += 20;
+        btnEl.style.background = '#16a34a';
+        btnEl.style.color = '#ffffff';
+        showToast('Hebat! Jawaban benar +20 poin!', '⭐');
+        speakText('Benar sekali! Hebat!');
+      } else {
+        playSFX('wrong');
+        btnEl.style.background = '#e11d48';
+        btnEl.style.color = '#ffffff';
+        showToast('Kurang tepat! ' + explainText, '💡');
+        speakText('Kurang tepat. ' + explainText);
+      }
+
+      setTimeout(() => {
+        if (gRound < 5) {
+          gRound++;
+          renderGameRound();
+        } else {
+          finishGameSession();
+        }
+      }, 1250);
+    }
+
+    function finishGameSession() {
+      const earned = gScore >= 100 ? 3 : gScore >= 60 ? 2 : gScore >= 20 ? 1 : 0;
+      const key = 'g' + activeGameId;
+      if (earned > (sessionStars[key] || 0)) {
+        sessionStars[key] = earned;
+      }
+      updateProgressAndStars();
+
+      if (earned >= 2) {
+        playSFX('win');
+        triggerConfetti();
+      }
+
+      const stage = document.getElementById('game-stage');
+      const chestVisual = activeGameId === 3 && earned >= 2 ? '👑💎 Peti Harta Karun Terbuka! 💎👑' : '🎉 Tantangan Game Selesai!';
+      speakText(`Permainan selesai! Kamu mendapatkan skor ${gScore} dan ${earned} bintang!`);
+
+      stage.innerHTML = `
+        <div class="max-w-md mx-auto bg-gradient-to-b from-amber-50 to-white rounded-3xl p-7 border-4 border-amber-300 text-center space-y-4 shadow-xl">
+          <div class="text-5xl tracking-widest">${'⭐'.repeat(earned) + '☆'.repeat(3 - earned)}</div>
+          <h3 class="font-display font-bold text-2xl text-slate-800">${chestVisual}</h3>
+          <p class="font-display font-bold text-3xl text-blue-600">Skor Akhir: ${gScore}</p>
+          <p class="font-bold text-slate-600 text-sm">Kamu meraih <strong>${earned} Bintang</strong> pada permainan ini!</p>
+          <div class="flex flex-wrap justify-center gap-3 pt-2">
+            <button onclick="launchGame(${activeGameId})" class="btn-3d btn-green px-5 py-2.5 text-sm">🔄 Main Lagi</button>
+            <button onclick="renderGameHub()" class="btn-3d btn-blue px-5 py-2.5 text-sm">🎮 Pilih Game Lain</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ===========================================================
+       9. MENU 5: LKPD DIGITAL & CETAK KERTAS A4
+       =========================================================== */
+    function renderLKPDVisuals() {
+      // Aktivitas 1: Menghitung batang puluhan & kubus satuan
+      const act1Data = [
+        { label: 'a)', tens: 1, ones: 4, ans: 14 },
+        { label: 'b)', tens: 2, ones: 7, ans: 27 },
+        { label: 'c)', tens: 3, ones: 2, ans: 32 },
+        { label: 'd)', tens: 4, ones: 5, ans: 45 }
+      ];
+      document.getElementById('lkpd-act-1').innerHTML = act1Data.map(d => `
+        <div class="border border-slate-400 rounded-lg p-2.5 flex flex-col justify-between">
+          <div class="flex items-end justify-center gap-3 py-2 min-h-[95px]">
+            <span class="font-bold text-sm self-start">${d.label}</span>
+            <div class="flex gap-1">
+              ${Array(d.tens).fill(`<div class="print-rod w-3.5 h-20 flex flex-col rounded bg-blue-500 border border-blue-800">${Array(10).fill('<div class="print-rod-seg flex-1 border-b border-white/70"></div>').join('')}</div>`).join('')}
+            </div>
+            <div class="grid grid-cols-5 gap-1">
+              ${Array(d.ones).fill('<div class="print-cube w-3.5 h-3.5 rounded bg-yellow-400 border border-amber-700"></div>').join('')}
+            </div>
+          </div>
+          <div class="pt-1.5 border-t border-slate-300 flex items-center justify-between text-xs sm:text-sm font-bold">
+            <span>${d.tens} Puluhan + ${d.ones} Satuan =</span>
+            <input type="number" data-ans="${d.ans}" class="lkpd-check w-16 text-center border border-slate-500 rounded py-0.5" />
+          </div>
+        </div>
+      `).join('');
+
+      // Aktivitas 4: Mencocokkan gambar dengan bilangan
+      const act4Data = [
+        { label: '1)', tens: 2, ones: 1, ans: '21', opts: ['12', '21', '20'] },
+        { label: '2)', tens: 5, ones: 3, ans: '53', opts: ['35', '50', '53'] }
+      ];
+      document.getElementById('lkpd-act-4').innerHTML = act4Data.map(d => `
+        <div class="border border-slate-400 rounded-lg p-2.5 flex items-center justify-between gap-2">
+          <div class="flex items-end gap-2">
+            <span>${d.label}</span>
+            <div class="flex gap-1">
+              ${Array(d.tens).fill(`<div class="print-rod w-3 h-16 flex flex-col rounded bg-blue-500 border border-blue-800">${Array(10).fill('<div class="print-rod-seg flex-1 border-b border-white/70"></div>').join('')}</div>`).join('')}
+            </div>
+            <div class="grid grid-cols-3 gap-1">
+              ${Array(d.ones).fill('<div class="print-cube w-3 h-3 rounded bg-yellow-400 border border-amber-700"></div>').join('')}
+            </div>
+          </div>
+          <div>
+            <select data-ans="${d.ans}" class="lkpd-check border-2 border-slate-500 rounded px-2 py-1 font-extrabold bg-white">
+              <option value="">-- Pilih --</option>
+              ${d.opts.map(o => `<option value="${o}">${o}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function checkLKPD() {
+      playSFX('click');
+      const fields = document.querySelectorAll('.lkpd-check');
+      let correct = 0;
+      fields.forEach(el => {
+        const expected = el.dataset.ans;
+        const val = el.value.trim();
+        if (val === expected) {
+          correct++;
+          el.style.backgroundColor = '#dcfce7';
+          el.style.borderColor = '#16a34a';
+        } else {
+          el.style.backgroundColor = '#fee2e2';
+          el.style.borderColor = '#dc2626';
+        }
+      });
+      const score = Math.round((correct / fields.length) * 100);
+      document.getElementById('lkpd-score-banner').textContent = `Hasil Pemeriksaan: Benar ${correct} dari ${fields.length} isian (Skor: ${score})`;
+      if (correct === fields.length) {
+        playSFX('win');
+        triggerConfetti();
+        speakText('Hebat sekali! Semua aktivitas LKPD kamu benar seratus!');
+        showToast('Sempurna! Semua jawaban LKPD benar!', '🏆');
+      } else {
+        playSFX('correct');
+        speakText(`Kamu menjawab benar ${correct} dari ${fields.length} kotak. Kotak berwarna merah bisa diperbaiki lagi ya!`);
+        showToast(`Benar ${correct} dari ${fields.length}. Ayo perbaiki kotak merah!`, '📝');
+      }
+    }
+
+    function resetLKPD() {
+      playSFX('click');
+      document.querySelectorAll('.lkpd-check').forEach(el => {
+        el.value = '';
+        el.style.backgroundColor = '#ffffff';
+        el.style.borderColor = '#64748b';
+      });
+      document.getElementById('lkpd-score-banner').textContent = 'Status: LKPD telah diulang, silakan kerjakan kembali.';
+      showToast('Isian LKPD telah dibersihkan.', '🔄');
+    }
+
+    /* ===========================================================
+       10. MENU 6: EVALUASI AKHIR (10 PILIHAN GANDA + 5 ISIAN SINGKAT)
+       =========================================================== */
+    const EVAL_QUESTIONS = [
+      // 10 Soal Pilihan Ganda (type: 'mc')
+      { type: 'mc', q: '1. Kumpulan dari 10 kubus satuan disebut ...', opts: ['1 Satuan', '1 Puluhan', '10 Puluhan', '0 Puluhan'], ans: '1 Puluhan' },
+      { type: 'mc', q: '2. Perhatikan gambar balok berikut. Bilangan berapakah ini?', tens: 1, ones: 6, opts: ['61', '15', '16', '17'], ans: '16' },
+      { type: 'mc', q: '3. Pada bilangan 37, angka 3 menempati nilai tempat ...', opts: ['Satuan', 'Puluhan', 'Ratusan', 'Belasan'], ans: 'Puluhan' },
+      { type: 'mc', q: '4. Pada bilangan 52, angka yang menempati nilai tempat SATUAN adalah ...', opts: ['5', '50', '2', '20'], ans: '2' },
+      { type: 'mc', q: '5. 4 Puluhan + 9 Satuan sama dengan bilangan ...', opts: ['94', '40', '49', '13'], ans: '49' },
+      { type: 'mc', q: '6. Hitunglah banyak seluruh balok di bawah ini!', tens: 3, ones: 4, opts: ['43', '34', '30', '24'], ans: '34' },
+      { type: 'mc', q: '7. Bentuk panjang (uraian) dari bilangan 65 adalah ...', opts: ['6 + 5', '60 + 5', '50 + 6', '60 + 50'], ans: '60 + 5' },
+      { type: 'mc', q: '8. Bilangan 80 terdiri dari ...', opts: ['8 Puluhan + 0 Satuan', '0 Puluhan + 8 Satuan', '8 Puluhan + 8 Satuan', '80 Puluhan'], ans: '8 Puluhan + 0 Satuan' },
+      { type: 'mc', q: '9. Perhatikan balok berikut! Berapa jumlah batang puluhan dan kubus satuannya?', tens: 2, ones: 5, opts: ['5 Puluhan + 2 Satuan', '2 Puluhan + 5 Satuan', '2 Puluhan + 2 Satuan', '5 Puluhan + 5 Satuan'], ans: '2 Puluhan + 5 Satuan' },
+      { type: 'mc', q: '10. Ibu membeli 7 ikat rambutan (masing-masing berisi 10 buah) dan 3 buah rambutan lepas. Jumlah seluruh rambutan Ibu adalah ...', opts: ['37', '70', '73', '10'], ans: '73' },
+
+      // 5 Soal Isian Singkat (type: 'fill')
+      { type: 'fill', q: '11. [Isian Singkat] 2 Puluhan + 8 Satuan = ...', ans: '28', placeholder: 'Tulis angkanya...' },
+      { type: 'fill', q: '12. [Isian Singkat] Pada bilangan 91, angka yang menempati tempat PULUHAN adalah angka ...', ans: '9', placeholder: 'Tulis angkanya...' },
+      { type: 'fill', q: '13. [Isian Singkat] 40 + 6 = ...', ans: '46', placeholder: 'Tulis angkanya...' },
+      { type: 'fill', q: '14. [Isian Singkat] Perhatikan gambar balok di bawah ini. Tuliskan bilangannya!', tens: 4, ones: 8, ans: '48', placeholder: 'Tulis angkanya...' },
+      { type: 'fill', q: '15. [Isian Singkat] 10 satuan jika dikelompokkan menjadi ... puluhan.', ans: '1', placeholder: 'Tulis angkanya...' }
+    ];
+
+    let evalStudent = '';
+    let evalIdx = 0;
+    let evalAnswers = [];
+    let evalCurrentAnswered = false;
+
+    function startEvaluasiSession() {
+      const nameVal = document.getElementById('eval-name-input').value.trim();
+      const errEl = document.getElementById('eval-name-error');
+      if (!nameVal) {
+        errEl.classList.remove('hidden');
+        playSFX('wrong');
+        return;
+      }
+      errEl.classList.add('hidden');
+      playSFX('click');
+
+      evalStudent = nameVal;
+      evalIdx = 0;
+      evalAnswers = [];
+      isEvalActive = true;
+
+      document.getElementById('eval-start-screen').classList.add('hidden');
+      document.getElementById('eval-result-screen').classList.add('hidden');
+      document.getElementById('eval-question-screen').classList.remove('hidden');
+
+      speakText(`Selamat mengerjakan evaluasi ${evalStudent}. Jawablah lima belas soal dengan teliti!`);
+      renderEvalSingleQuestion();
+    }
+
+    function renderEvalSingleQuestion() {
+      evalCurrentAnswered = false;
+      const item = EVAL_QUESTIONS[evalIdx];
+      const screen = document.getElementById('eval-question-screen');
+
+      const blockHTML = item.tens !== undefined
+        ? `<div class="bg-white rounded-2xl p-4 border border-purple-200 my-3">${renderBlocksGroup(item.tens, item.ones, false)}</div>`
+        : '';
+
+      let inputZone = '';
+      if (item.type === 'mc') {
+        const letters = ['A', 'B', 'C', 'D'];
+        inputZone = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            ${item.opts.map((opt, i) => `
+              <button onclick="submitEvalMC(this, '${opt}')" class="eval-opt-btn btn-3d btn-blue py-3.5 px-5 text-base sm:text-lg justify-start text-left w-full">
+                <span class="bg-white text-blue-700 font-bold w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0">${letters[i]}</span>
+                <span>${opt}</span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+      } else {
+        inputZone = `
+          <div class="max-w-sm mx-auto space-y-3 pt-2">
+            <input type="number" id="eval-fill-input" placeholder="${item.placeholder}" class="w-full text-center font-display font-bold text-3xl py-3 px-4 rounded-2xl border-3 border-purple-400 focus:border-purple-600 focus:outline-none bg-white" />
+            <button id="btn-submit-fill" onclick="submitEvalFill()" class="btn-3d btn-green w-full py-3 text-lg">✔ Jawab Soal Ini</button>
+          </div>
+        `;
+      }
+
+      screen.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 bg-purple-50 px-4 py-3 rounded-2xl border border-purple-200">
+          <span class="font-bold text-purple-950 text-sm">👤 Siswa: <strong>${evalStudent}</strong></span>
+          <span class="font-display font-bold text-purple-700">Soal ${evalIdx + 1} dari ${EVAL_QUESTIONS.length}</span>
+          <button onclick="speakText('${item.q.replace(/\[.*?\]/g, '').replace(/'/g, '')}')" class="btn-3d btn-orange px-3 py-1 text-xs">🔊 Bacakan Soal</button>
+        </div>
+
+        <div class="bg-slate-50 rounded-3xl p-5 sm:p-7 border-2 border-slate-200 space-y-4">
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-slate-800">${item.q}</h3>
+          ${blockHTML}
+          ${inputZone}
+          <div id="eval-item-feedback" class="hidden rounded-2xl p-4 font-bold text-center text-base"></div>
+        </div>
+
+        <div class="flex justify-end">
+          <button id="btn-eval-next" onclick="proceedNextEval()" class="hidden btn-3d btn-purple px-6 py-3 text-base">
+            ${evalIdx < EVAL_QUESTIONS.length - 1 ? 'Soal Berikutnya ➔' : '🏁 Lihat Nilai Akhir'}
+          </button>
+        </div>
+      `;
+    }
+
+    function submitEvalMC(btnEl, selectedOpt) {
+      if (evalCurrentAnswered) return;
+      evalCurrentAnswered = true;
+      const item = EVAL_QUESTIONS[evalIdx];
+      const isRight = selectedOpt === item.ans;
+
+      evalAnswers.push({ q: item.q, user: selectedOpt, correct: item.ans, isRight });
+
+      document.querySelectorAll('.eval-opt-btn').forEach(b => b.disabled = true);
+      const fb = document.getElementById('eval-item-feedback');
+
+      if (isRight) {
+        playSFX('correct');
+        btnEl.classList.remove('btn-blue');
+        btnEl.classList.add('btn-green');
+        fb.className = 'rounded-2xl p-4 font-bold text-center text-base bg-emerald-100 text-emerald-900 border-2 border-emerald-400 block animate-pop';
+        fb.innerHTML = `✅ <strong>Benar!</strong> Jawabanmu tepat: <strong>${item.ans}</strong>.`;
+        speakText('Jawabanmu benar! Hebat!');
+      } else {
+        playSFX('wrong');
+        btnEl.classList.remove('btn-blue');
+        btnEl.classList.add('btn-pink');
+        fb.className = 'rounded-2xl p-4 font-bold text-center text-base bg-rose-100 text-rose-900 border-2 border-rose-300 block animate-pop';
+        fb.innerHTML = `❌ <strong>Kurang tepat.</strong> Jawaban yang benar adalah <strong>${item.ans}</strong>.`;
+        speakText(`Kurang tepat. Jawaban yang benar adalah ${item.ans}.`);
+      }
+
+      document.getElementById('btn-eval-next').classList.remove('hidden');
+    }
+
+    function submitEvalFill() {
+      if (evalCurrentAnswered) return;
+      const inp = document.getElementById('eval-fill-input');
+      const val = inp.value.trim();
+      if (val === '') {
+        playSFX('wrong');
+        showToast('Isi jawaban angkanya terlebih dahulu ya! Tidak boleh dilewati.', '⚠️');
+        return;
+      }
+      evalCurrentAnswered = true;
+      inp.disabled = true;
+      document.getElementById('btn-submit-fill').disabled = true;
+
+      const item = EVAL_QUESTIONS[evalIdx];
+      const isRight = val === item.ans;
+      evalAnswers.push({ q: item.q, user: val, correct: item.ans, isRight });
+
+      const fb = document.getElementById('eval-item-feedback');
+      if (isRight) {
+        playSFX('correct');
+        fb.className = 'rounded-2xl p-4 font-bold text-center text-base bg-emerald-100 text-emerald-900 border-2 border-emerald-400 block animate-pop';
+        fb.innerHTML = `✅ <strong>Benar Sekali!</strong> Jawabannya adalah <strong>${item.ans}</strong>.`;
+        speakText('Benar sekali! Hebat!');
+      } else {
+        playSFX('wrong');
+        fb.className = 'rounded-2xl p-4 font-bold text-center text-base bg-rose-100 text-rose-900 border-2 border-rose-300 block animate-pop';
+        fb.innerHTML = `❌ <strong>Belum tepat.</strong> Jawaban yang benar adalah <strong>${item.ans}</strong>.`;
+        speakText(`Belum tepat. Jawaban yang benar adalah ${item.ans}.`);
+      }
+
+      document.getElementById('btn-eval-next').classList.remove('hidden');
+    }
+
+    function proceedNextEval() {
+      if (!evalCurrentAnswered) {
+        showToast('Jawab soal ini dulu sebelum lanjut ya!', '⚠️');
+        return;
+      }
+      playSFX('click');
+      if (evalIdx < EVAL_QUESTIONS.length - 1) {
+        evalIdx++;
+        renderEvalSingleQuestion();
+      } else {
+        finishEvaluasiSession();
+      }
+    }
+
+    function finishEvaluasiSession() {
+      isEvalActive = false;
+      const totalQ = EVAL_QUESTIONS.length;
+      const correctCount = evalAnswers.filter(a => a.isRight).length;
+      const wrongCount = totalQ - correctCount;
+      // Nilai akhir 0 - 100 proporsional & akurat
+      const finalScore = Math.round((correctCount / totalQ) * 100);
+
+      let predicate = 'Perlu Bimbingan';
+      let motivation = 'Jangan menyerah! Ayo pelajari kembali menu Materi dan Simulasi bersama Ibu Guru, kamu pasti bisa!';
+      let badgeStyle = 'bg-amber-100 text-amber-900 border-amber-400';
+
+      if (finalScore >= 90) {
+        predicate = 'Sangat Baik (Istimewa)';
+        motivation = 'Luar biasa! Kamu sudah sangat mahir mengenal puluhan dan satuan. Pertahankan prestasimu!';
+        badgeStyle = 'bg-emerald-100 text-emerald-900 border-emerald-400';
+      } else if (finalScore >= 75) {
+        predicate = 'Baik (Tuntas)';
+        motivation = 'Bagus sekali! Kamu sudah memahami puluhan dan satuan dengan baik. Terus berlatih ya!';
+        badgeStyle = 'bg-blue-100 text-blue-900 border-blue-400';
+      } else if (finalScore >= 60) {
+        predicate = 'Cukup';
+        motivation = 'Cukup baik! Ayo berlatih lagi di menu Praktikum dan Game supaya nilaimu semakin tinggi!';
+        badgeStyle = 'bg-yellow-100 text-yellow-900 border-yellow-400';
+      }
+
+      if (finalScore >= 75) {
+        playSFX('win');
+        triggerConfetti();
+      } else {
+        playSFX('correct');
+      }
+
+      speakText(`Evaluasi selesai! Nilai akhir ${evalStudent} adalah ${finalScore}, dengan predikat ${predicate}. Jawaban benar ${correctCount} dan salah ${wrongCount}. ${motivation}`);
+
+      document.getElementById('eval-question-screen').classList.add('hidden');
+      const resScreen = document.getElementById('eval-result-screen');
+      resScreen.classList.remove('hidden');
+
+      resScreen.innerHTML = `
+        <div class="bg-gradient-to-br from-purple-50 via-white to-amber-50 rounded-3xl p-6 sm:p-8 border-4 border-purple-300 text-center space-y-4">
+          <span class="text-5xl block">🏆</span>
+          <h3 class="font-display font-bold text-2xl sm:text-3xl text-slate-800">Hasil Evaluasi Belajar</h3>
+          <p class="font-bold text-slate-700 text-lg">Nama Siswa: <strong>${evalStudent}</strong> • SDN 3 Kelaten</p>
+
+          <div class="max-w-xs mx-auto bg-white rounded-3xl p-5 border-3 border-purple-400 shadow-md">
+            <span class="text-xs font-extrabold uppercase text-slate-500">Nilai Akhir (0–100)</span>
+            <div class="font-display font-bold text-6xl text-purple-700 my-1">${finalScore}</div>
+            <span class="inline-block px-3.5 py-1 rounded-full text-xs font-extrabold border ${badgeStyle}">${predicate}</span>
+          </div>
+
+          <div class="flex justify-center gap-6 font-bold text-base pt-1">
+            <span class="text-emerald-700">✅ Benar: ${correctCount}</span>
+            <span class="text-rose-600">❌ Salah: ${wrongCount}</span>
+          </div>
+
+          <div class="max-w-xl mx-auto bg-white/90 rounded-2xl p-4 border-2 border-purple-200 font-bold text-slate-700 text-sm sm:text-base">
+            💬 ${motivation}
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3 pt-2">
+            <button onclick="resetEvaluasiUI()" class="btn-3d btn-orange px-6 py-3 text-base">🔄 Ulangi Evaluasi</button>
+            <button onclick="requestNavigate('menu')" class="btn-3d btn-blue px-6 py-3 text-base">🏠 Kembali ke Menu Utama</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function resetEvaluasiUI() {
+      playSFX('click');
+      isEvalActive = false;
+      document.getElementById('eval-result-screen').classList.add('hidden');
+      document.getElementById('eval-start-screen').classList.remove('hidden');
+    }
+
+    /* ===========================================================
+       11. INISIALISASI AWAL
+       =========================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderMateriTab();
+      renderSimulasi();
+      renderLKPDVisuals();
+      updateProgressAndStars();
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
+    });
+  </script>
+</body>
+</html>
